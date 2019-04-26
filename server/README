@@ -1,0 +1,3 @@
+## Instructions
+`source bagito/bin/activate` to activate virtualenv
+`python app.py` to run the server
