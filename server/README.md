@@ -1,6 +1,8 @@
 ## Instructions
 `pip install -r requirements.txt` to install dependencies - you need to run this only once
+
 `python db_create.py` to create database locally - you need to run this only once
+
 `python app.py` to run the server
 
 ## Notes
