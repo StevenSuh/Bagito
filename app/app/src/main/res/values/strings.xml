@@ -1,3 +1,22 @@
 <resources>
     <string name="app_name">Bagito</string>
+    <string name="title_activity_login">Sign in</string>
+    <string name="bagito_logo">Bagito Logo</string>
+    <string name="back">back</string>
+    <!-- Strings related to login -->
+    <string name="prompt_name">Name</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="prompt_confirm_password">Confirm Password</string>
+    <string name="prompt_city">City</string>
+    <string name="prompt_state">State</string>
+    <string name="action_sign_in">Sign in</string>
+    <string name="action_register">Register</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
 </resources>
