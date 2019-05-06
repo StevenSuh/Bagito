@@ -1,10 +1,10 @@
 from flask import Flask, jsonify, request
-from db import db
+from db import app, db
 from db.models import User
+from sqlalchemy.exc import IntegrityError
 import config
+import defs
 import hashlib
-
-app = Flask(__name__)
 
 # temporary index route
 @app.route('/')
@@ -12,23 +12,46 @@ def index():
   return config.PASSWORD_SALT
 
 # input: email, password
-# output: success, msg (empty if success is True)
+# output: msg (only if error)
 @app.route('/api/login', methods=['POST'])
 def login():
-  req_data = request.get_json()
-
-  email = req_data['email']
-  password = req_data['password']
+  email = request.form['email'].lower()
+  password = request.form['password']
 
   user = User.query.filter_by(email=email).first()
   if user is None:
-    return jsonify(success=False, msg='No such email')
+    return jsonify(msg='Account does not exist'), 404
 
-  password_hash = hashlib.sha256(password + config.PASSWORD_SALT).hexdigest()
+  password_hash = hashlib.sha256((password + config.PASSWORD_SALT).encode('utf-8')).hexdigest()
   if user.password != password_hash:
-    return jsonify(success=False, msg='Incorrect password')
+    return jsonify(msg='Incorrect password'), 400
 
-  return jsonify(success=True)
+  return jsonify()
+
+# input: name, email, password, city, state
+# output: msg (only if error)
+@app.route('/api/register', methods=['POST'])
+def register():
+  name = request.form['name']
+  email = request.form['email'].lower()
+  password = request.form['password']
+  city = request.form['city']
+  state = request.form['state']
+
+  if state not in defs.STATE_LIST:
+    return jsonify(msg='Invalid state'), 404
+
+  password_hash = hashlib.sha256((password + config.PASSWORD_SALT).encode('utf-8')).hexdigest()
+
+  new_user = User(name=name, email=email, password=password_hash, city=city, state=state)
+  try:
+    db.session.add(new_user)
+    db.session.commit()
+  except IntegrityError:
+    db.session.rollback()
+    return jsonify(msg='Account already exists'), 400
+
+  return jsonify()
 
 if __name__ == '__main__':
   app.run(debug=True, use_reloader=True)

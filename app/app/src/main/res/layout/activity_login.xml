@@ -74,6 +74,7 @@
             android:id="@+id/login_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
             android:fontFamily="@font/open_sans"
             android:text="@string/action_sign_in"
             android:textAllCaps="true"
@@ -83,12 +84,12 @@
         <!-- Login progress -->
         <ProgressBar
             android:id="@+id/login_progress"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="25dp"
-            android:layout_gravity="center"
+            android:layout_centerHorizontal="true"
             android:indeterminate="true"
             android:indeterminateDrawable="@drawable/progress_dark"
-            android:visibility="gone" />
+            android:visibility="invisible" />
 
     </RelativeLayout>
 
