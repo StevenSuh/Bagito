@@ -15,8 +15,8 @@
         android:adjustViewBounds="true"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:paddingLeft="@dimen/activity_horizontal_margin_medium"
-        android:paddingTop="@dimen/activity_vertical_margin_medium"
+        android:paddingLeft="16dp"
+        android:paddingTop="18dp"
         android:src="@drawable/arrow_left" />
 
     <LinearLayout
