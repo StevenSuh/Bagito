@@ -1,4 +1,4 @@
-package com.example.bagito;
+package com.example.bagito.register;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -24,6 +24,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.bagito.Enums;
+import com.example.bagito.HttpUtils;
+import com.example.bagito.MainActivity;
+import com.example.bagito.R;
+import com.example.bagito.Utils;
+import com.example.bagito.login.LoginActivity;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
@@ -198,11 +204,11 @@ public class RegisterActivity extends AppCompatActivity {
             InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(mPasswordView.getWindowToken(), 0);
 
-            executeRegister(name, email, password, city, state);
+            RegisterApi.executeRegister(this, name, email, password, city, state);
         }
     }
 
-    private void showProgress(final boolean show) {
+    public void showProgress(final boolean show) {
         isRegistering = show;
         int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
@@ -225,76 +231,5 @@ public class RegisterActivity extends AppCompatActivity {
                         mRegisterProgressbar.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
                     }
                 });
-    }
-
-    private void executeRegister(String name, String email, String password, String city, String state) {
-        RequestParams rp = new RequestParams();
-        rp.add("name", name);
-        rp.add("email", email);
-        rp.add("password", password);
-        rp.add("city", city);
-        rp.add("state", state);
-
-        HttpUtils.post("/api/register", rp, new JsonHttpResponseHandler() {
-            @Override
-            public void onStart() {
-                showProgress(true);
-            }
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                successLogin();
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                failureLogin(null);
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                if (errorResponse == null) {
-                    failureLogin(null);
-                    return;
-                }
-
-                try {
-                    String message = errorResponse.getString(HttpUtils.ERROR_MSG);
-                    failureLogin(message);
-                } catch (JSONException e) {
-                    failureLogin(null);
-                }
-            }
-
-            @Override
-            public void onFinish() {
-                showProgress(false);
-            }
-        });
-    }
-
-    private void successLogin() {
-        prefs = getSharedPreferences(Enums.SHARED_PREFS.toString(), MODE_PRIVATE);
-        prefs.edit().putBoolean(Enums.IS_LOGGED_IN.toString(), true).apply();
-
-        Toast.makeText(this.getApplicationContext(), "Success!", Toast.LENGTH_SHORT).show();
-
-        try {
-            // fake delay
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-    }
-
-    private void failureLogin(String error) {
-        if (TextUtils.isEmpty(error)) {
-            error = "Failed server response";
-        }
-
-        Toast.makeText(this.getApplicationContext(), error, Toast.LENGTH_SHORT).show();
     }
 }

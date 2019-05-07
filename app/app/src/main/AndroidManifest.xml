@@ -11,11 +11,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".RegisterActivity"
+            android:name=".register.RegisterActivity"
             android:theme="@style/AppTheme_NoAction"
-            android:parentActivityName=".LoginActivity" />
+            android:parentActivityName=".login.LoginActivity" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".login.LoginActivity"
             android:label="@string/title_activity_login"
             android:theme="@style/AppTheme_NoAction" />
         <activity android:name=".MainActivity">

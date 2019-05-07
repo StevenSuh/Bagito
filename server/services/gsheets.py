@@ -19,7 +19,7 @@ def get_partner_list(query=None, index=0):
   try:
     sheet = service.open_by_key(SPREADSHEET_KEY)
   except gspread.exceptions.APIError:
-    return []
+    return {}
 
   worksheet = None
   if query:
@@ -27,9 +27,10 @@ def get_partner_list(query=None, index=0):
   else:
     worksheet = sheet.get_worksheet(index)
 
-  values = []
+  values = {}
   if worksheet:
-    values = worksheet.get_all_records()
+    values['title'] = worksheet.title
+    values['records'] = worksheet.get_all_records()
 
   return values
 

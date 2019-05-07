@@ -1,4 +1,4 @@
-package com.example.bagito;
+package com.example.bagito.login;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -22,14 +22,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.loopj.android.http.JsonHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.w3c.dom.Text;
-
-import cz.msebera.android.httpclient.Header;
+import com.example.bagito.HttpUtils;
+import com.example.bagito.R;
+import com.example.bagito.register.RegisterActivity;
+import com.example.bagito.Utils;
 
 /**
  * A login screen that offers login via email/password.
@@ -143,11 +139,11 @@ public class LoginActivity extends AppCompatActivity {
             InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(mPasswordView.getWindowToken(), 0);
 
-            executeLogin(email, password);
+            LoginApi.executeLogin(this, email, password);
         }
     }
 
-    private void showProgress(final boolean show) {
+    public void showProgress(final boolean show) {
         isLoggingIn = show;
         int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
@@ -170,66 +166,5 @@ public class LoginActivity extends AppCompatActivity {
                         mProgressView.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
                     }
                 });
-    }
-
-    private void executeLogin(String email, String password) {
-        RequestParams rp = new RequestParams();
-        rp.add("email", email);
-        rp.add("password", password);
-
-        HttpUtils.post("/api/login", rp, new JsonHttpResponseHandler() {
-            @Override
-            public void onStart() {
-                showProgress(true);
-            }
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                successLogin();
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                failureLogin(null);
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                if (errorResponse == null) {
-                    failureLogin(null);
-                    return;
-                }
-
-                try {
-                    String message = errorResponse.getString(HttpUtils.ERROR_MSG);
-                    failureLogin(message);
-                } catch (JSONException e) {
-                    failureLogin(null);
-                }
-            }
-
-            @Override
-            public void onFinish() {
-                showProgress(false);
-            }
-        });
-    }
-
-    private void successLogin() {
-        prefs = getSharedPreferences(Enums.SHARED_PREFS.toString(), MODE_PRIVATE);
-        prefs.edit().putBoolean(Enums.IS_LOGGED_IN.toString(), true).apply();
-
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-        finish();
-    }
-
-    private void failureLogin(String error) {
-        if (TextUtils.isEmpty(error)) {
-            error = "Failed server response";
-        }
-
-        Toast.makeText(this.getApplicationContext(), error, Toast.LENGTH_SHORT).show();
     }
 }
