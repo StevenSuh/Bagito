@@ -2,9 +2,11 @@ from flask import Flask, jsonify, request
 from db import app, db
 from db.models import User
 from sqlalchemy.exc import IntegrityError
+
 import config
 import defs
 import hashlib
+import services.gsheets
 
 # temporary index route
 @app.route('/')
@@ -52,6 +54,16 @@ def register():
     return jsonify(msg='Account already exists'), 400
 
   return jsonify()
+
+# input: query, index
+# output: data
+@app.route('/api/partner', methods=['GET'])
+def partner():
+  query = request.args.get('query', None)
+  index = request.args.get('index', 0)
+
+  values = services.gsheets.get_partner_list(query, index)
+  return jsonify(data=values)
 
 if __name__ == '__main__':
   app.run(debug=True, use_reloader=True)

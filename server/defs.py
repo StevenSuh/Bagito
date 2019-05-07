@@ -1,3 +1,8 @@
+GSHEETS_ADDRESS = "Address"
+GSHEETS_GOOGLE_MAP = "Google Map Link"
+GSHEETS_HOURS = "Hours"
+GSHEETS_NAME = "Name"
+
 STATE_LIST = [
     "AL",
     "AK",
