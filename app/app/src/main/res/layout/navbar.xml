@@ -2,7 +2,7 @@
 <android.support.v7.widget.Toolbar
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="?actionBarSize"
+    android:layout_height="65dp"
     android:id="@+id/toolbar_actionbar"
     android:padding="0dp">
     <LinearLayout
@@ -12,9 +12,10 @@
         android:layout_marginTop="4dp"
         android:layout_marginRight="22dp"
         android:layout_marginEnd="22dp"
-        android:weightSum="4" >
+        android:weightSum="4">
 
         <LinearLayout
+            android:id="@+id/home_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -32,13 +33,13 @@
                 android:layout_marginTop="3dp"
                 android:fontFamily="@font/open_sans_bold"
                 android:text="Home"
-                android:textSize="10sp"
                 android:textColor="@color/colorPrimary"
                 android:textAllCaps="true"
                 android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/rent_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -56,13 +57,13 @@
                 android:layout_marginTop="3dp"
                 android:fontFamily="@font/open_sans_bold"
                 android:text="Rent"
-                android:textSize="10sp"
                 android:textAllCaps="true"
                 android:textColor="@color/colorPrimary"
                 android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/return_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -80,13 +81,13 @@
                 android:layout_marginTop="3dp"
                 android:fontFamily="@font/open_sans_bold"
                 android:text="Return"
-                android:textSize="10sp"
                 android:textColor="@color/colorPrimary"
                 android:textAllCaps="true"
                 android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/account_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -104,7 +105,6 @@
                 android:layout_marginTop="3dp"
                 android:fontFamily="@font/open_sans_bold"
                 android:text="Account"
-                android:textSize="10sp"
                 android:textColor="@color/colorPrimary"
                 android:textAllCaps="true"
                 android:textStyle="bold" />
