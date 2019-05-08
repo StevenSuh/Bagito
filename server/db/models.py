@@ -25,5 +25,5 @@ class Rental(db.Model):
   
   # rental info 
   location = db.Column(db.String(256))
-  rental_date = db.Column(__)
-  bag_id = db.
+  rental_date = db.Column(db.DateTime)
+  bag_id = db.Column(db.Integer)

@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request
 from db import app, db
-from db.models import User, Bag
+from db.models import User, Bag, Rental
 from sqlalchemy.exc import IntegrityError
 
 import config
@@ -69,7 +69,13 @@ def partner():
 @app.route('/api/user/<user_id>/rent_status')
 def rentstatus(user_id):
   bags = Bag.query.filter_by(current_user=user_id).all()
-  return bags
+  values = []
+  for bag in bags:
+    bag_id = bag.id
+    rental = Rental.query.filter_by(bag_id=bag_id)
+    values.append({"Date": rental.rental_date, "Location": rental.location})
+  return jsonify(values=values)
+
 
   
 
