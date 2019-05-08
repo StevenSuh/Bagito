@@ -19,7 +19,8 @@ class Bag(db.Model):
   # bag info
   current_user = db.Column(db.Integer))
   rental_id = db.Column(db.Integer))
-
+  qrcode_id = db.Column(db.String(256))
+  bin_id = db.Column(db.String(256))
 class Rental(db.Model):
   id = db.Column(db.Integer,primary_key=True)
   
@@ -27,3 +28,11 @@ class Rental(db.Model):
   location = db.Column(db.String(256))
   rental_date = db.Column(db.DateTime)
   bag_id = db.Column(db.Integer)
+  bin_id = db.Column(db.Integer)
+
+class Bin(db.Model):
+  id = db.Column(db.Integer,primary_key=True)
+
+  qrcode_id = db.Column(db.String(256))
+  location = db.Column(db.String(256))
+

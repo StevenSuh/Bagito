@@ -19,7 +19,6 @@ def index():
 def login():
   email = request.form['email'].lower()
   password = request.form['password']
-
   user = User.query.filter_by(email=email).first()
   if user is None:
     return jsonify(msg='Account does not exist'), 404
@@ -47,8 +46,8 @@ def register():
 
   new_user = User(name=name, email=email, password=password_hash, city=city, state=state)
   try:
-    db.session.add(new_user)
-    db.session.commit()
+      db.session.add(new_user)
+      db.session.commit()
   except IntegrityError:
     db.session.rollback()
     return jsonify(msg='Account already exists'), 400
@@ -66,7 +65,7 @@ def partner():
   return jsonify(data=values)
 
 # Gets the rental status
-@app.route('/api/user/<user_id>/rent_status')
+@app.route('/api/user/<user_id>/rent_status', methods=['GET'])
 def rentstatus(user_id):
   bags = Bag.query.filter_by(current_user=user_id).all()
   values = []
@@ -76,9 +75,20 @@ def rentstatus(user_id):
     values.append({"Date": rental.rental_date, "Location": rental.location})
   return jsonify(values=values)
 
+# Return a bag
 
+@app.route('/api/return',methods = ['POST'])
+def return():
+  user_id = request.form['user_id']
+  bag_id = request.form['bag_id']
+  bin_id = request.form['bin_id']
+
+  current_bag = Bag.query.filter_by(id=bag_id)
+  
   
 
 
 if __name__ == '__main__':
   app.run(debug=True, use_reloader=True)
+
+
