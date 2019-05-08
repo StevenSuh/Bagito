@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request
 from db import app, db
-from db.models import User
+from db.models import User, Bag, Rental
 from sqlalchemy.exc import IntegrityError
 
 import config
@@ -65,6 +65,7 @@ def partner():
   values = services.gsheets.get_partner_list(query, index)
   return jsonify(data=values)
 
+<<<<<<< HEAD
 # input: any of [Name, email, password, address, payment token]
 # output: msg (only if error)
 @app.route('/api/user/<user_id>/update', methods=['POST'])
@@ -92,6 +93,21 @@ def update(user_id);
 
   return jsonify()
 
+=======
+# Gets the rental status
+@app.route('/api/user/<user_id>/rent_status')
+def rentstatus(user_id):
+  bags = Bag.query.filter_by(current_user=user_id).all()
+  values = []
+  for bag in bags:
+    bag_id = bag.id
+    rental = Rental.query.filter_by(bag_id=bag_id)
+    values.append({"Date": rental.rental_date, "Location": rental.location})
+  return jsonify(values=values)
+
+
+  
+>>>>>>> db139f8df3091bfef4df18f6eaf89e3a12cbd466
 
 
 if __name__ == '__main__':
