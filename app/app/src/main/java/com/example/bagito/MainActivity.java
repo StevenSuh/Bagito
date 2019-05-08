@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Utils.initActionBar(getApplicationContext());
+        Utils.initActionBar(getApplicationContext(), getSupportActionBar());
         Utils.initNavbar(getApplicationContext(), Enums.HOME_BUTTON.toString());
 
         Button mLogoutButton = findViewById(R.id.logout_button);
