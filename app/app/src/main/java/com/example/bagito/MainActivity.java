@@ -2,12 +2,19 @@ package com.example.bagito;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
@@ -45,8 +52,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Utils.initActionBar(getApplicationContext(), getSupportActionBar());
-        Utils.initNavbar(getApplicationContext(), Enums.HOME_BUTTON.toString());
+        initActionBar();
+        initNavbar(Enums.HOME_BUTTON.toString());
 
         Button mLogoutButton = findViewById(R.id.logout_button);
         mLogoutButton.setOnClickListener(new View.OnClickListener() {
@@ -68,25 +75,110 @@ public class MainActivity extends AppCompatActivity {
         isLoadingList = show;
         int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-        listView.animate()
-                .setDuration(shortAnimTime)
-                .alpha(show ? 0 : 1)
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        listView.setVisibility(show ? View.INVISIBLE : View.VISIBLE);
-                    }
-                });
+//        listView.animate()
+//                .setDuration(shortAnimTime)
+//                .alpha(show ? 0 : 1)
+//                .setListener(new AnimatorListenerAdapter() {
+//                    @Override
+//                    public void onAnimationEnd(Animator animation) {
+//                        listView.setVisibility(show ? View.INVISIBLE : View.VISIBLE);
+//                    }
+//                });
+//
+//        progressView.animate()
+//                .setDuration(shortAnimTime)
+//                .alpha(show ? 1 : 0)
+//                .setListener(new AnimatorListenerAdapter() {
+//                    @Override
+//                    public void onAnimationEnd(Animator animation) {
+//                        progressView.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
+//                    }
+//                });
+    }
 
-        progressView.animate()
-                .setDuration(shortAnimTime)
-                .alpha(show ? 1 : 0)
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        progressView.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
-                    }
-                });
+    private void initActionBar() {
+        ActionBar actionBar = getSupportActionBar();
+
+        if (actionBar != null) {
+            actionBar.setTitle(Html.fromHtml("<b><font color=\"" + getResources().getColor(R.color.colorPrimary) + "\">" + getString(R.string.app_name) + "</font></b>"));
+            actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorLight)));
+        }
+    }
+
+    private void initNavbar(String currentPage) {
+        final LinearLayout homeButton = findViewById(R.id.home_button);
+        final LinearLayout rentButton = findViewById(R.id.rent_button);
+        final LinearLayout returnButton = findViewById(R.id.return_button);
+        final LinearLayout accountButton = findViewById(R.id.account_button);
+
+        homeButton.setAlpha(0.5f);
+        rentButton.setAlpha(0.5f);
+        returnButton.setAlpha(0.5f);
+        accountButton.setAlpha(0.5f);
+
+        View.OnTouchListener onTouchListener = new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                    v.setAlpha(1);
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    v.setAlpha(0.5f);
+                }
+                return true;
+            }
+        };
+
+        homeButton.setOnTouchListener(onTouchListener);
+        rentButton.setOnTouchListener(onTouchListener);
+        returnButton.setOnTouchListener(onTouchListener);
+        accountButton.setOnTouchListener(onTouchListener);
+
+        homeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), MainActivity.class);
+                startActivity(intent);
+            }
+        });
+        rentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                    Intent intent = new Intent(v.getContext(), RentActivity.class);
+//                    startActivity(intent);
+            }
+        });
+        returnButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                    Intent intent = new Intent(v.getContext(), ReturnActivity.class);
+//                    startActivity(intent);
+            }
+        });
+        accountButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                    Intent intent = new Intent(v.getContext(), AccountActivity.class);
+//                    startActivity(intent);
+            }
+        });
+
+        if (currentPage.equals(Enums.HOME_BUTTON.toString())) {
+            homeButton.setAlpha(1);
+            homeButton.setOnTouchListener(null);
+            homeButton.setOnClickListener(null);
+        } else if (currentPage.equals(Enums.RENT_BUTTON.toString())) {
+            rentButton.setAlpha(1);
+            rentButton.setOnTouchListener(null);
+            rentButton.setOnClickListener(null);
+        } else if (currentPage.equals(Enums.RETURN_BUTTON.toString())) {
+            returnButton.setAlpha(1);
+            returnButton.setOnTouchListener(null);
+            returnButton.setOnClickListener(null);
+        } else if (currentPage.equals(Enums.ACCOUNT_BUTTON.toString())) {
+            accountButton.setAlpha(1);
+            accountButton.setOnTouchListener(null);
+            accountButton.setOnClickListener(null);
+        }
     }
 
     private void getPartnerList() {
