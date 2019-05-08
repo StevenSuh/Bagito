@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,10 +20,7 @@ public class Utils {
         return password.length() > 4;
     }
 
-    public static void initActionBar(Context context) {
-        ActionBar actionBar = ((AppCompatActivity) context).getSupportActionBar();
-        System.out.println(actionBar);
-
+    public static void initActionBar(Context context, ActionBar actionBar) {
         if (actionBar != null) {
             actionBar.setTitle(Html.fromHtml("<b><font color=\"" + context.getResources().getColor(R.color.colorPrimary) + "\">" + context.getString(R.string.app_name) + "</font></b>"));
             actionBar.setBackgroundDrawable(new ColorDrawable(context.getResources().getColor(R.color.colorLight)));

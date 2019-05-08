@@ -64,6 +64,33 @@ def partner():
   values = services.gsheets.get_partner_list(query, index)
   return jsonify(data=values)
 
+# input: any of [Name, email, password, address, payment token]
+# output: msg (only if error)
+@app.route('/api/user/<user_id>/update', methods=['POST'])
+def update(user_id);
+
+  user = User.query.filter_by(id = user_id).first()
+  name = request.form['name']
+  email = request.form['email'].lower()
+  password = request.form['password']
+  address = request.form['address']
+  payment_token= request.form['stripe_token']
+
+  if name:
+    user.name = name;
+  if email:
+    user.email = email;
+  if password: 
+    user.password = password;
+  if address:
+    user.address = address;
+  if payment_token:
+    user.payment_token = payment_token;
+
+  db.session.commit()
+
+  return jsonify()
+
 # Gets the rental status
 @app.route('/api/user/<user_id>/rent_status', methods=['GET'])
 def rentstatus(user_id):
