@@ -12,3 +12,18 @@ class User(db.Model):
 
   # obfuscated payment info only readable by stripe
   stripe_token = db.Column(db.String(256))
+
+class Bag(db.Model):
+  id = db.Column(db.Integer,primary_key=True)
+
+  # bag info
+  current_user = db.Column(db.Integer))
+  rental_id = db.Column(db.Integer))
+
+class Rental(db.Model):
+  id = db.Column(db.Integer,primary_key=True)
+  
+  # rental info 
+  location = db.Column(db.String(256))
+  rental_date = db.Column(__)
+  bag_id = db.

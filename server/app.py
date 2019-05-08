@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request
 from db import app, db
-from db.models import User
+from db.models import User, Bag
 from sqlalchemy.exc import IntegrityError
 
 import config
@@ -64,6 +64,15 @@ def partner():
 
   values = services.gsheets.get_partner_list(query, index)
   return jsonify(data=values)
+
+# Gets the rental status
+@app.route('/api/user/<user_id>/rent_status')
+def rentstatus(user_id):
+  bags = Bag.query.filter_by(current_user=user_id).all()
+  return bags
+
+  
+
 
 if __name__ == '__main__':
   app.run(debug=True, use_reloader=True)
