@@ -112,7 +112,14 @@ def return():
 
   current_bag = Bag.query.filter_by(id=bag_id)
   
-  
+@app.rout('/api/user/rent', methods=['POST'])
+def rent:
+  user_id = request.form['user_id']
+  bag_id = request.form['bag_id']
+  bags = Bag.query.filter_by(current_user=user_id).all()
+
+  if not bags:
+    bag_id =   
 
 
 if __name__ == '__main__':
