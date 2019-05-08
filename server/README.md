@@ -7,3 +7,5 @@
 
 ## Notes
 Refer to 'Tech Design Doc' in team drive for API specifications
+
+Get `credentials.json` file from project owner
