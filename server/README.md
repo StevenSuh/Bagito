@@ -8,4 +8,6 @@
 ## Notes
 Refer to 'Tech Design Doc' in team drive for API specifications
 
+If `python -V` returns a version lower 3, then use `pip3` over `pip` and `python3` over `python`
+
 Get `credentials.json` file from project owner
