@@ -141,7 +141,7 @@
                 android:textAllCaps="true"
                 android:textColor="@color/colorLight"
                 android:textStyle="bold"
-                android:visibility="invisible" />
+                android:visibility="visible" />
 
             <!-- Login progress -->
             <ProgressBar
@@ -151,7 +151,7 @@
                 android:layout_centerHorizontal="true"
                 android:indeterminate="true"
                 android:indeterminateDrawable="@drawable/progress_dark"
-                android:visibility="visible" />
+                android:visibility="invisible" />
 
         </RelativeLayout>
 
