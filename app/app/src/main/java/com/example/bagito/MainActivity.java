@@ -19,6 +19,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.example.bagito.login.LoginActivity;
+import com.example.bagito.About.AboutActivity;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
@@ -110,11 +111,14 @@ public class MainActivity extends AppCompatActivity {
         final LinearLayout rentButton = findViewById(R.id.rent_button);
         final LinearLayout returnButton = findViewById(R.id.return_button);
         final LinearLayout accountButton = findViewById(R.id.account_button);
+        final LinearLayout aboutButton = findViewById(R.id.about_button);
+
 
         homeButton.setAlpha(0.5f);
         rentButton.setAlpha(0.5f);
         returnButton.setAlpha(0.5f);
         accountButton.setAlpha(0.5f);
+        aboutButton.setAlpha(0.5f);
 
         View.OnTouchListener onTouchListener = new View.OnTouchListener() {
             @Override
@@ -124,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     v.setAlpha(0.5f);
                 }
-                return true;
+                return false;
             }
         };
 
@@ -132,6 +136,8 @@ public class MainActivity extends AppCompatActivity {
         rentButton.setOnTouchListener(onTouchListener);
         returnButton.setOnTouchListener(onTouchListener);
         accountButton.setOnTouchListener(onTouchListener);
+        aboutButton.setOnTouchListener(onTouchListener);
+
 
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -162,6 +168,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        aboutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    System.out.println("I\'m in onclicklistener");
+                    Intent intent = new Intent(v.getContext(), AboutActivity.class);
+                    startActivity(intent);
+            }
+        });
+
         if (currentPage.equals(Enums.HOME_BUTTON.toString())) {
             homeButton.setAlpha(1);
             homeButton.setOnTouchListener(null);
@@ -178,6 +193,10 @@ public class MainActivity extends AppCompatActivity {
             accountButton.setAlpha(1);
             accountButton.setOnTouchListener(null);
             accountButton.setOnClickListener(null);
+        } else if (currentPage.equals(Enums.ABOUT_BUTTON.toString())) {
+            aboutButton.setAlpha(1);
+            aboutButton.setOnTouchListener(null);
+            aboutButton.setOnClickListener(null);
         }
     }
 
