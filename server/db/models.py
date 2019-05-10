@@ -36,3 +36,10 @@ class Bin(db.Model):
   qrcode_id = db.Column(db.String(256))
   location = db.Column(db.String(256))
 
+class Returned(db.Model):
+  id = db.Column(db.Integer,primary_keys=True)
+
+  bag_id = db.Column(db.String(256))
+  return_date = db.Column(db.DateTime)
+  bin_id = db.Column(db.Integer)
+  user_id = db.Column(db.String(256))

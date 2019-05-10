@@ -109,10 +109,18 @@ def return():
   user_id = request.form['user_id']
   bag_id = request.form['bag_id']
   bin_id = request.form['bin_id']
-
+  current_date = request.form['date']
   current_bag = Bag.query.filter_by(id=bag_id)
+  current_bag.current_user=None
+  current_bag.bin_id=bin_id
+  new_returned = Returned(bag_id=bag_id,return_date=current_date,bin_id=bin_id,user_id=user_id)
+  try:
+    db.session.add(new_returned)
+    db.session.commit()
+  except IntegrityError:
+    db.session.rollback()
   
-  
+  return jsonify()
 
 
 if __name__ == '__main__':
