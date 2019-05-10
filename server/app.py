@@ -7,6 +7,7 @@ import config
 import defs
 import hashlib
 import services.gsheets
+import datetime
 
 # temporary index route
 @app.route('/')
@@ -77,15 +78,15 @@ def update(user_id);
   payment_token= request.form['stripe_token']
 
   if name:
-    user.name = name;
+    user.name = name
   if email:
-    user.email = email;
+    user.email = email
   if password: 
-    user.password = password;
+    user.password = password
   if address:
-    user.address = address;
+    user.address = address
   if payment_token:
-    user.payment_token = payment_token;
+    user.payment_token = payment_token
 
   db.session.commit()
 
@@ -116,10 +117,17 @@ def return():
 def rent:
   user_id = request.form['user_id']
   bag_id = request.form['bag_id']
+  location_id = request.form['location']
+
+  current_bag = Bag.query.filter_by(id=bag_id)
+  
+  rental_date = Rental.query.filter_by()
+  
+  datetime.datetime.now()
+
   bags = Bag.query.filter_by(current_user=user_id).all()
 
-  if not bags:
-    bag_id =   
+  
 
 
 if __name__ == '__main__':
