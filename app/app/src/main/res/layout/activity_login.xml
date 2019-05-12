@@ -105,4 +105,16 @@
         android:textStyle="bold" />
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/forgot_button"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text="Forgot Password"
+        android:textSize="12sp"
+        android:textColor="#AAAAAA"
+        android:textStyle="bold" />
+
 </LinearLayout>
