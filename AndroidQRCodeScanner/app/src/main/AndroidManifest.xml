@@ -3,7 +3,9 @@
     package="com.example.androidqrcodescanner">
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-feature android:name="android.hardware.camera"/>
-    <uses-feature android:name="android.hardware.camera.autofocus"/><code class="xml plain">
+    <uses-feature android:name="android.hardware.camera.autofocus"/>
+    <!--<code class="xml plain">-->
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
