@@ -26,6 +26,8 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
-    //add Zxing Library
-    implementation 'com.journeyapps:zxing-android-embedded:3.4.0'
+    //add Zxing Library – from simplifiedcoding.net
+    // implementation 'com.journeyapps:zxing-android-embedded:3.4.0'
+    //add Zxing library – from androidtutorialonline.com
+    implementation 'me.dm7.barcodescanner:zxing:1.9'
 }
