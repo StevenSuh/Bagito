@@ -16,15 +16,13 @@ import datetime
 @app.route('/')
 def index():
   return config.PASSWORD_SALT
-||||||| merged common ancestors
+
 
 # temporary index route
 @app.route('/')
 def index():
   return config.PASSWORD_SALT
-=======
-import services.mailjet
->>>>>>> 10888e314c177e22add2cafaaed04104971f6ce7
+
 
 # input: email, password
 # output: msg (only if error)
@@ -148,19 +146,9 @@ def update(user_id):
   if name:
     user.name = name
   if email:
-<<<<<<< HEAD
     user.email = email
   if password: 
     user.password = password
-||||||| merged common ancestors
-    user.email = email;
-  if password: 
-    user.password = password;
-=======
-    user.email = email;
-  if password:
-    user.password = password;
->>>>>>> 10888e314c177e22add2cafaaed04104971f6ce7
   if address:
     user.address = address
   if payment_token:
@@ -198,9 +186,7 @@ def return_bag():
     db.session.commit()
   except IntegrityError:
     db.session.rollback()
-<<<<<<< HEAD
-  
-<<<<<<< HEAD
+ 
 @app.rout('/api/user/rent', methods=['POST'])
 def rent:
   user_id = request.form['user_id']
@@ -208,22 +194,17 @@ def rent:
   location_id = request.form['location']
 
   current_bag = Bag.query.filter_by(id=bag_id)
-  
-  rental_date = Rental.query.filter_by()
-  
-  datetime.datetime.now()
+  #current_bag.rental_date = datetime.datetime.now()
+  current_bag.current_user = user_id
 
-  bags = Bag.query.filter_by(current_user=user_id).all()
+  rental = Rental.query.filter_by(bag_id= bag_id)
+  rental.location = location_id
+  rental.rental_date = datetime.now()
+  rental.bag_id = bag_id
 
   
-=======
-||||||| merged common ancestors
-  
-=======
 
->>>>>>> 10888e314c177e22add2cafaaed04104971f6ce7
   return jsonify()
->>>>>>> d5880648c8f3e67c9c243c220f9ae49ad3e43f82
 
 
 if __name__ == '__main__':
