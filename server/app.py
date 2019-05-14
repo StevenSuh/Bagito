@@ -110,9 +110,18 @@ def return():
   user_id = request.form['user_id']
   bag_id = request.form['bag_id']
   bin_id = request.form['bin_id']
-
+  current_date = request.form['date']
   current_bag = Bag.query.filter_by(id=bag_id)
+  current_bag.current_user=None
+  current_bag.bin_id=bin_id
+  new_returned = Returned(bag_id=bag_id,return_date=current_date,bin_id=bin_id,user_id=user_id)
+  try:
+    db.session.add(new_returned)
+    db.session.commit()
+  except IntegrityError:
+    db.session.rollback()
   
+<<<<<<< HEAD
 @app.rout('/api/user/rent', methods=['POST'])
 def rent:
   user_id = request.form['user_id']
@@ -128,6 +137,9 @@ def rent:
   bags = Bag.query.filter_by(current_user=user_id).all()
 
   
+=======
+  return jsonify()
+>>>>>>> d5880648c8f3e67c9c243c220f9ae49ad3e43f82
 
 
 if __name__ == '__main__':
