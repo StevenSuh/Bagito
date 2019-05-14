@@ -42,16 +42,18 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
         prefs = getSharedPreferences(Enums.SHARED_PREFS.toString(), MODE_PRIVATE);
         isLoggedIn = prefs.getBoolean(Enums.IS_LOGGED_IN.toString(), false);
 
         if (!isLoggedIn) {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
+            finish();
+            return;
         }
-
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
         initActionBar();
         initNavbar(Enums.HOME_BUTTON.toString());
@@ -111,8 +113,7 @@ public class MainActivity extends AppCompatActivity {
         final LinearLayout rentButton = findViewById(R.id.rent_button);
         final LinearLayout returnButton = findViewById(R.id.return_button);
         final LinearLayout accountButton = findViewById(R.id.account_button);
-        final LinearLayout aboutButton = findViewById(R.id.about_button);
-
+        final LinearLayout aboutButton = findViewById(R.id.account_button);
 
         homeButton.setAlpha(0.5f);
         rentButton.setAlpha(0.5f);

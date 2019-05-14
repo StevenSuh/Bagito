@@ -62,8 +62,7 @@ public class RegisterActivity extends AppCompatActivity {
         mBack.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), LoginActivity.class);
-                startActivity(intent);
+                finish();
             }
         });
         mBack.setOnTouchListener(new OnTouchListener() {

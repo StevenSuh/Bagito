@@ -10,6 +10,10 @@ class User(db.Model):
   city = db.Column(db.String(256))
   state = db.Column(db.String(256))
 
+  # forgot password
+  code = db.Column(db.String(4))
+  code_exp = db.Column(db.DateTime)
+
   # obfuscated payment info only readable by stripe
   stripe_token = db.Column(db.String(256))
 
@@ -17,14 +21,15 @@ class Bag(db.Model):
   id = db.Column(db.Integer,primary_key=True)
 
   # bag info
-  current_user = db.Column(db.Integer))
-  rental_id = db.Column(db.Integer))
+  current_user = db.Column(db.Integer)
+  rental_id = db.Column(db.Integer)
   qrcode_id = db.Column(db.String(256))
   bin_id = db.Column(db.String(256))
+
 class Rental(db.Model):
   id = db.Column(db.Integer,primary_key=True)
-  
-  # rental info 
+
+  # rental info
   location = db.Column(db.String(256))
   rental_date = db.Column(db.DateTime)
   bag_id = db.Column(db.Integer)
@@ -37,8 +42,9 @@ class Bin(db.Model):
   location = db.Column(db.String(256))
 
 class Returned(db.Model):
-  id = db.Column(db.Integer,primary_keys=True)
+  id = db.Column(db.Integer,primary_key=True)
 
+  location = db.Column(db.String(256))
   bag_id = db.Column(db.String(256))
   return_date = db.Column(db.DateTime)
   bin_id = db.Column(db.Integer)

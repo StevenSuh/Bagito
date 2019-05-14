@@ -16,13 +16,13 @@ public class AboutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
 
-        Button nextBtn = (Button) findViewById(R.id.nextBtn);
-        nextBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent startIntent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(startIntent);
-            }
-        });
+//        Button nextBtn = (Button) findViewById(R.id.nextBtn);
+//        nextBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent startIntent = new Intent(getApplicationContext(), MainActivity.class);
+//                startActivity(startIntent);
+//            }
+//        });
     }
 }

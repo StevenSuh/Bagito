@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.example.bagito.HttpUtils;
 import com.example.bagito.R;
+import com.example.bagito.forgot.EmailActivity;
 import com.example.bagito.register.RegisterActivity;
 import com.example.bagito.Utils;
 
@@ -76,11 +77,21 @@ public class LoginActivity extends AppCompatActivity {
                 attemptLogin();
             }
         });
+
         Button mRegisterButton = findViewById(R.id.email_register_button);
         mRegisterButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), RegisterActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        Button mForgotButton = findViewById(R.id.forgot_button);
+        mForgotButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, EmailActivity.class);
                 startActivity(intent);
             }
         });
