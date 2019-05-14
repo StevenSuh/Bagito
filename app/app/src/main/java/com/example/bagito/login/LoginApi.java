@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.text.TextUtils;
 import android.widget.Toast;
 
+import com.example.bagito.DataHolder;
 import com.example.bagito.Enums;
 import com.example.bagito.HttpUtils;
 import com.example.bagito.MainActivity;
@@ -32,7 +33,18 @@ public class LoginApi {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                successLogin(context);
+                try {
+                    int id = response.getInt(DataHolder.User.ID);
+                    String name = response.getString(DataHolder.User.NAME);
+                    String email = response.getString(DataHolder.User.EMAIL);
+                    String city = response.getString(DataHolder.User.CITY);
+                    String state = response.getString(DataHolder.User.STATE);
+
+                    DataHolder.User user = new DataHolder.User(id, name, email, city, state);
+                    successLogin(context, user);
+                } catch (JSONException e) {
+                    failureLogin(context, null);
+                }
             }
 
             @Override
@@ -62,9 +74,10 @@ public class LoginApi {
         });
     }
 
-    private static void successLogin(Context context) {
+    private static void successLogin(Context context, DataHolder.User user) {
         SharedPreferences prefs = context.getSharedPreferences(Enums.SHARED_PREFS.toString(), Context.MODE_PRIVATE);
         prefs.edit().putBoolean(Enums.IS_LOGGED_IN.toString(), true).apply();
+        DataHolder.getInstance().setUser(user, prefs);
 
         Intent intent = new Intent(context, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);

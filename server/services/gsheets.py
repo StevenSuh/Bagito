@@ -11,7 +11,7 @@ def build_service():
   creds = ServiceAccountCredentials.from_json_keyfile_name('credentials.json', scope)
   service = gspread.authorize(creds)
 
-def get_partner_list(query=None, index=0):
+def get_partner_list(query=None):
   if service is None:
     build_service()
 
@@ -19,18 +19,20 @@ def get_partner_list(query=None, index=0):
   try:
     sheet = service.open_by_key(SPREADSHEET_KEY)
   except gspread.exceptions.APIError:
-    return {}
+    return []
 
   worksheet = None
   if query:
-    worksheet = sheet.worksheet(query)
+    try:
+      worksheet = sheet.worksheet(query)
+    except gspread.exceptions.WorksheetNotFound:
+      return []
   else:
-    worksheet = sheet.get_worksheet(index)
+    worksheet = sheet.get_worksheet(0)
 
-  values = {}
+  values = []
   if worksheet:
-    values['title'] = worksheet.title
-    values['records'] = worksheet.get_all_records()
+    values = worksheet.get_all_records()
 
   return values
 

@@ -31,10 +31,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="3dp"
-                android:fontFamily="@font/open_sans_bold"
+                android:fontFamily="@font/open_sans"
                 android:text="Home"
                 android:textColor="@color/colorPrimary"
-                android:textAllCaps="true"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -55,9 +54,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="3dp"
-                android:fontFamily="@font/open_sans_bold"
+                android:fontFamily="@font/open_sans"
                 android:text="Rent"
-                android:textAllCaps="true"
                 android:textColor="@color/colorPrimary"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -79,10 +77,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="3dp"
-                android:fontFamily="@font/open_sans_bold"
+                android:fontFamily="@font/open_sans"
                 android:text="Return"
                 android:textColor="@color/colorPrimary"
-                android:textAllCaps="true"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -103,10 +100,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="3dp"
-                android:fontFamily="@font/open_sans_bold"
+                android:fontFamily="@font/open_sans"
                 android:text="Account"
                 android:textColor="@color/colorPrimary"
-                android:textAllCaps="true"
                 android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>

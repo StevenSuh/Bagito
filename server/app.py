@@ -9,20 +9,6 @@ import defs
 import hashlib
 import random
 import services.gsheets
-<<<<<<< HEAD
-import datetime
-
-# temporary index route
-@app.route('/')
-def index():
-  return config.PASSWORD_SALT
-
-
-# temporary index route
-@app.route('/')
-def index():
-  return config.PASSWORD_SALT
-
 
 # input: email, password
 # output: msg (only if error)
@@ -38,7 +24,13 @@ def login():
   if user.password != password_hash:
     return jsonify(msg='Incorrect password'), 400
 
-  return jsonify()
+  return jsonify(
+    user_id=user.id,
+    user_name=user.name,
+    user_email=user.email,
+    user_city=user.city,
+    user_state=user.state,
+  )
 
 # input: name, email, password, city, state
 # output: msg (only if error)
@@ -127,9 +119,8 @@ def forgot_reset():
 @app.route('/api/partner', methods=['GET'])
 def partner():
   query = request.args.get('query', None)
-  index = request.args.get('index', 0)
 
-  values = services.gsheets.get_partner_list(query, index)
+  values = services.gsheets.get_partner_list(query)
   return jsonify(data=values)
 
 # input: any of [Name, email, password, address, payment token]
@@ -187,8 +178,8 @@ def return_bag():
   except IntegrityError:
     db.session.rollback()
  
-@app.rout('/api/user/rent', methods=['POST'])
-def rent:
+@app.route('/api/user/rent', methods=['POST'])
+def rent():
   user_id = request.form['user_id']
   bag_id = request.form['bag_id']
   location_id = request.form['location']
@@ -201,8 +192,6 @@ def rent:
   rental.location = location_id
   rental.rental_date = datetime.now()
   rental.bag_id = bag_id
-
-  
 
   return jsonify()
 

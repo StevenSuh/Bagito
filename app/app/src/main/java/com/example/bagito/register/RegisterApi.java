@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.example.bagito.Enums;
 import com.example.bagito.HttpUtils;
 import com.example.bagito.MainActivity;
+import com.example.bagito.login.LoginActivity;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
@@ -78,7 +79,7 @@ public class RegisterApi {
             e.printStackTrace();
         }
 
-        Intent intent = new Intent(context, MainActivity.class);
+        Intent intent = new Intent(context, LoginActivity.class);
         context.startActivity(intent);
         ((Activity) context).finish();
     }

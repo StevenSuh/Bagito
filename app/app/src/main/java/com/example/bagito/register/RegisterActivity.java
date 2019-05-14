@@ -3,7 +3,6 @@ package com.example.bagito.register;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,21 +21,11 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.bagito.Enums;
-import com.example.bagito.HttpUtils;
-import com.example.bagito.MainActivity;
 import com.example.bagito.R;
 import com.example.bagito.Utils;
-import com.example.bagito.login.LoginActivity;
-import com.loopj.android.http.JsonHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import cz.msebera.android.httpclient.Header;
+import java.util.Arrays;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -195,6 +184,14 @@ public class RegisterActivity extends AppCompatActivity {
             mStateView.setError(getString(R.string.error_field_required));
             focusView = mStateView;
             cancel = true;
+        } else {
+            String[] states = getResources().getStringArray(R.array.states);
+
+            if (!Arrays.asList(states).contains(state)) {
+                mStateView.setError("Invalid state");
+                focusView = mStateView;
+                cancel = true;
+            }
         }
 
         if (cancel) {
