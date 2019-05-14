@@ -8,8 +8,16 @@ def createCustomer(name,email):
         name = name
     )
 
-def createSubscription(name,email)
-    
+def createSubscription(name,email):
+    user_id = createCustomer(name,email)['id']
+    stripe.Subscription.create(
+        customer = user_id,
+        items = [
+            {
+                "plan": "Bagito",
+            },
+        ]
+    )
 
 def createPlan(name,price):
     stripe.Plan.create(
