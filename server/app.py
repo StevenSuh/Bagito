@@ -9,6 +9,7 @@ import defs
 import hashlib
 import random
 import services.gsheets
+import services.mailjet
 
 # input: email, password
 # output: msg (only if error)
@@ -138,7 +139,7 @@ def update(user_id):
     user.name = name
   if email:
     user.email = email
-  if password: 
+  if password:
     user.password = password
   if address:
     user.address = address
@@ -177,7 +178,7 @@ def return_bag():
     db.session.commit()
   except IntegrityError:
     db.session.rollback()
- 
+
 @app.route('/api/user/rent', methods=['POST'])
 def rent():
   user_id = request.form['user_id']
