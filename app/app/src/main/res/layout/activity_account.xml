@@ -6,4 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".Account.AccountActivity">
 
+    <include layout="@layout/toolbar" android:id="@+id/toolbar" />
+
+    <ListView
+        android:id="@+id/webpageListView"
+        android:layout_width="405dp"
+        android:layout_height="393dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintVertical_bias="0.804"
+        tools:layout_editor_absoluteX="0dp" />
+
+
 </android.support.constraint.ConstraintLayout>
