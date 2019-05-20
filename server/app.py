@@ -196,6 +196,94 @@ def rent():
 
   return jsonify()
 
+def createCustomer(name,email,paymentmethod_id):
+    return stripe.Customer.create(
+        email = email,
+        name = name,
+        invoice_settings = [
+          {
+            "default_payment_method": paymentmethod_id
+          },
+        ]
+    )
+
+def createSubscription(name,email):
+    user_id = createCustomer(name,email)['id']
+    stripe.Subscription.create(
+        customer = user_id,
+        items = [
+            {
+                "plan": "Bagito",
+            },
+        ]
+    )
+
+def createPlanandProduct(name,price):
+    product = stripe.Product.create(
+      name = "Rentable Bags",
+      type = "service",
+
+    )
+    stripe.Plan.create(
+        amount = price,
+        interval = "month",
+        product = product['id'],
+        currency = "usd",
+    )
+def createPaymentMethod():
+
+    stripe.PaymentMethod.create(
+        type = 'card',
+        billing_details = {
+          address = {
+            'city' = request.form['city'],
+            'country' = request.form['country'],
+            'line1' = request.form['line1'],
+            'line2' = request.form['line2'],
+            'postal_code' = request.form['postal_code'],
+            'state' = request.form['state']
+          },
+          'email' = request.form['email'],
+          'name' = request.form['name'],
+          'phone' = request.form['phone']
+
+
+        },
+        card = {
+            'number': request.form['number']
+            'exp_month': request.form['exp_month'],
+            'exp_year': request.form['exp_year'],
+            'cvc': request.form['cvc']
+        },
+    )
+def updatePaymentMethod(paymentmethod_id ):
+    stripe.PaymentMethod.modify(
+        paymentmethod_id,
+        type = 'card',
+        billing_details = {
+          address = {
+            'city' = request.form['city'],
+            'country' = request.form['country'],
+            'line1' = request.form['line1'],
+            'line2' = request.form['line2'],
+            'postal_code' = request.form['postal_code'],
+            'state' = request.form['state']
+          },
+          'email' = request.form['email'],
+          'name' = request.form['name'],
+          'phone' = request.form['phone']
+
+
+        },
+        card = {
+            'number': request.form['number']
+            'exp_month': request.form['exp_month'],
+            'exp_year': request.form['exp_year'],
+            'cvc': request.form['cvc']
+        },
+    )
+def unSavePaymentMethod(payment_id):
+    stripe.PaymentMethod.detatch(payment_id)
 
 if __name__ == '__main__':
   app.run(debug=True, use_reloader=True)
