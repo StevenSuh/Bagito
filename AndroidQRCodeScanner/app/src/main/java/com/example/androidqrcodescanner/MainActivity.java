@@ -18,6 +18,9 @@ import com.google.zxing.Result;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 import static android.Manifest.permission.CAMERA;
 
+// NOTE: following androidtutorialonline -- replacing Activity name
+// "QrCodeScannerActivity" with "MainActivity"
+
 // implementation also acts as Barcode scanner
 public class MainActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler{
 
@@ -94,12 +97,78 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
 
     //
     private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
-        new android.support.v7.app.AlertDialog.Builder(QrCodeScannerActivity.this)
+        new android.support.v7.app.AlertDialog.Builder(MainActivity.this)
                 .setMessage(message)
                 .setPositiveButton("OK", okListener)
                 .setNegativeButton("Cancel", null)
                 .create()
                 .show();
     }
+
+    //For the first time, when the user installs the app,
+    // the app will request permission to use the Camera,
+    // on subsequent app runs, we don’t need to provide any permission.
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        int currentapiVersion = android.os.Build.VERSION.SDK_INT;
+        if (currentapiVersion >= android.os.Build.VERSION_CODES.M) {
+            if (checkPermission()) {
+                // create a new ScannerView if null
+                if(mScannerView == null) {
+                    mScannerView = new ZXingScannerView(this);
+                    setContentView(mScannerView);
+                }
+                mScannerView.setResultHandler(this);
+                // starts Camera to capture QR Code
+                mScannerView.startCamera();
+            }
+            else {
+                requestPermission();
+            }
+        }
+    }
+
+    // To release the Camera using stopCamera() method
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mScannerView.stopCamera();
+    }//<code class="java plain">
+
+    // handles result of the QR Code scan
+    @Override
+    public void handleResult(Result rawResult) {
+        final String result = rawResult.getText();
+        // Log result to the LogCat
+        Log.d("QRCodeScanner", rawResult.getText());
+        Log.d("QRCodeScanner", rawResult.getBarcodeFormat().toString());
+
+        // Show the result of the scan and two buttons, OK and Visit
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Scan Result");
+        // Clicking on OK button will resume the scanning
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //mScannerView.resumeCameraPreview(QrCodeScannerActivity.this);
+                mScannerView.resumeCameraPreview(MainActivity.this);
+            }
+        });
+        // Clicking on Visit button will open what was scanned
+        builder.setNeutralButton("Visit", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(result));
+                startActivity(browserIntent);
+            }
+        });
+        builder.setMessage(rawResult.getText());
+        AlertDialog alert1 = builder.create();
+        alert1.show();
+    }
+
+
 
 }
