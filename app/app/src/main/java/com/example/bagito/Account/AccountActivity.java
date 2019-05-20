@@ -1,10 +1,13 @@
 package com.example.bagito.Account;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -27,8 +30,40 @@ public class AccountActivity extends AppCompatActivity {
         webpageListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(AccountActivity.this, info[position], Toast.LENGTH_SHORT).show();
+                if(info[position].equals("Power2Sustain Website")){
+                    power2SustainWebsite();
+                } else if(info[position].equals("Bagito Website")) {
+                    bagitoWebsite();
+                }
+                Toast.makeText(AccountActivity.this, "Welcome to the " + info[position], Toast.LENGTH_SHORT).show();
             }
         });
     }
+
+    public void power2SustainWebsite(){
+        // Attempts to launch an activity outside our app
+
+        String power2Sustain = "https://www.power2sustain.org/";
+        Uri webaddress = Uri.parse(power2Sustain);
+
+        Intent goTopower2Sustain= new Intent(Intent.ACTION_VIEW, webaddress);
+        // Have to check if response to intent is null or not
+        if (goTopower2Sustain.resolveActivity(getPackageManager()) != null){
+            startActivity(goTopower2Sustain);
+        }
+    }
+    public void bagitoWebsite(){
+        // Attempts to launch an activity outside our app
+
+        String bagito = "https://www.bagito.co/";
+        Uri webaddress = Uri.parse(bagito);
+
+        Intent goToBagito= new Intent(Intent.ACTION_VIEW, webaddress);
+        // Have to check if response to intent is null or not
+        if (goToBagito.resolveActivity(getPackageManager()) != null){
+            startActivity(goToBagito);
+        }
+    }
+
+
 }
