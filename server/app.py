@@ -285,6 +285,8 @@ def updatePaymentMethod(paymentmethod_id ):
 def unSavePaymentMethod(payment_id):
     stripe.PaymentMethod.detatch(payment_id)
 
+def cancelSubscription(sub_id):
+    stripe.Subscription.delete(sub_id)
 if __name__ == '__main__':
   app.run(debug=True, use_reloader=True)
 
