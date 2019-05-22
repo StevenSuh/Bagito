@@ -140,24 +140,43 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
     // handles result of the QR Code scan
     @Override
     public void handleResult(Result rawResult) {
-        final String result = rawResult.getText();
+        final String result = rawResult.getText();  // literally whatever is in the QR code
         // Log result to the LogCat
-        Log.d("QRCodeScanner", rawResult.getText());
-        Log.d("QRCodeScanner", rawResult.getBarcodeFormat().toString());
+        System.out.println("String result:" + result);
+
+        Log.d("QRCodeScanner", rawResult.getText());    // returns text (e.g. http://www.google.com")
+        Log.d("QRCodeScanner", rawResult.getBarcodeFormat().toString()); // returns QR_CODE
 
         // Show the result of the scan and two buttons, OK and Visit
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Scan Result");
         // Clicking on OK button will resume the scanning
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        /*builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 //mScannerView.resumeCameraPreview(QrCodeScannerActivity.this);
                 mScannerView.resumeCameraPreview(MainActivity.this);
             }
+        });*/
+        // instead of above, have a Cancel button that terminates scanning
+        builder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //mScannerView.resumeCameraPreview(QrCodeScannerActivity.this);
+                //mScannerView.resumeCameraPreview(MainActivity.this);
+                onDestroy();
+            }
         });
         // Clicking on Visit button will open what was scanned
-        builder.setNeutralButton("Visit", new DialogInterface.OnClickListener() {
+        /*builder.setNeutralButton("Visit", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(result));
+                startActivity(browserIntent);
+            }
+        });*/
+        // instead of above, have a Buy button that sends bagID over to server for processing/DB
+        builder.setNeutralButton("Purchase", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(result));
