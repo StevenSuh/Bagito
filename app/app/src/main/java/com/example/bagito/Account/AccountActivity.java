@@ -34,6 +34,10 @@ public class AccountActivity extends AppCompatActivity {
                     power2SustainWebsite();
                 } else if(info[position].equals("Bagito Website")) {
                     bagitoWebsite();
+                } else if(info[position].equals("Terms of Service")) {
+                    termsOSPage();
+                } else if(info[position].equals("Privacy Policy")) {
+                    privacyPolicyPage();
                 }
                 Toast.makeText(AccountActivity.this, "Welcome to the " + info[position], Toast.LENGTH_SHORT).show();
             }
@@ -65,5 +69,16 @@ public class AccountActivity extends AppCompatActivity {
         }
     }
 
+    public void termsOSPage(){
+        Intent startIntent = new Intent(getApplicationContext(), TOSActivity.class);
+//        startIntent.putExtra("com.example.myapplication.ExtraInfo","Hello World");
+        startActivity(startIntent);
+    }
+
+    public void privacyPolicyPage(){
+        Intent startIntent = new Intent(getApplicationContext(), PrivacyPolicyActivity.class);
+//        startIntent.putExtra("com.example.myapplication.ExtraInfo","Hello World");
+        startActivity(startIntent);
+    }
 
 }
