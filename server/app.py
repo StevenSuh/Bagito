@@ -218,9 +218,9 @@ def createSubscription(name,email):
         ]
     )
 
-def createPlanandProduct(name,price):
+def createPlanandProduct(price):
     product = stripe.Product.create(
-      name = "Rentable Bags",
+      name = "Bagito",
       type = "service",
 
     )
@@ -235,22 +235,22 @@ def createPaymentMethod():
     stripe.PaymentMethod.create(
         type = 'card',
         billing_details = {
-          address = {
-            'city' = request.form['city'],
-            'country' = request.form['country'],
-            'line1' = request.form['line1'],
-            'line2' = request.form['line2'],
-            'postal_code' = request.form['postal_code'],
-            'state' = request.form['state']
+          address :{
+            'city': request.form['city'],
+            'country': request.form['country'],
+            'line1': request.form['line1'],
+            'line2': request.form['line2'],
+            'postal_code': request.form['postal_code'],
+            'state': request.form['state']
           },
-          'email' = request.form['email'],
-          'name' = request.form['name'],
-          'phone' = request.form['phone']
+          'email': request.form['email'],
+          'name': request.form['name'],
+          'phone': request.form['phone']
 
 
         },
         card = {
-            'number': request.form['number']
+            'number': request.form['number'],
             'exp_month': request.form['exp_month'],
             'exp_year': request.form['exp_year'],
             'cvc': request.form['cvc']
@@ -261,22 +261,22 @@ def updatePaymentMethod(paymentmethod_id ):
         paymentmethod_id,
         type = 'card',
         billing_details = {
-          address = {
-            'city' = request.form['city'],
-            'country' = request.form['country'],
-            'line1' = request.form['line1'],
-            'line2' = request.form['line2'],
-            'postal_code' = request.form['postal_code'],
-            'state' = request.form['state']
+          address : {
+            'city': request.form['city'],
+            'country': request.form['country'],
+            'line1': request.form['line1'],
+            'line2': request.form['line2'],
+            'postal_code': request.form['postal_code'],
+            'state' : request.form['state']
           },
-          'email' = request.form['email'],
-          'name' = request.form['name'],
-          'phone' = request.form['phone']
+          'email': request.form['email'],
+          'name': request.form['name'],
+          'phone': request.form['phone']
 
 
         },
         card = {
-            'number': request.form['number']
+            'number': request.form['number'],
             'exp_month': request.form['exp_month'],
             'exp_year': request.form['exp_year'],
             'cvc': request.form['cvc']
