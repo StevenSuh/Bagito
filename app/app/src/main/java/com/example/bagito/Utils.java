@@ -77,8 +77,8 @@ public class Utils {
         rentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                    Intent intent = new Intent(v.getContext(), RentActivity.class);
-//                    context.startActivity(intent);
+                    Intent intent = new Intent(v.getContext(), RentActivity.class);
+                    context.startActivity(intent);
             }
         });
         returnButton.setOnClickListener(new View.OnClickListener() {
