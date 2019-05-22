@@ -9,24 +9,48 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.bagito.MainActivity;
 import com.example.bagito.R;
 
+import org.w3c.dom.Text;
+
 public class AccountActivity extends AppCompatActivity {
 
     String [] info = new String [] {"Power2Sustain Website", "Bagito Website", "Terms of Service", "Privacy Policy"};
-
+    String [] settingsOptions = new String [] {"Check Rental Status", "Change Information", "Change Notifications"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
+//        TextView settingsView = (TextView) findViewById(R.id.settingsView);
+//        settingsView.setText("SETTINGS");
+
+        ListView settingsListView = (ListView) findViewById(R.id.settingsListView);
+        ArrayAdapter<String> settingsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1 , settingsOptions);
+
+        settingsListView.setAdapter(settingsAdapter);
+        settingsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if(info[position].equals("Check Rental Status")){
+                    power2SustainWebsite();
+                }  else if(info[position].equals("Change Information")) {
+                    termsOSPage();
+                } else if(info[position].equals("Change Notifications")) {
+                    privacyPolicyPage();
+                }
+                Toast.makeText(AccountActivity.this, "Welcome to the " + info[position], Toast.LENGTH_SHORT).show();
+            }
+        });
 
         ListView webpageListView = (ListView) findViewById(R.id.webpageListView);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1 , info);
+//        webpageListView.addHeaderView(settingsView);
+        ArrayAdapter<String> infoAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1 , info);
 
-        webpageListView.setAdapter(adapter);
+        webpageListView.setAdapter(infoAdapter);
         webpageListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
