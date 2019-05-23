@@ -1,33 +1,41 @@
-import stripe
 
+import stripe
+"""
 with open('credentials.json') as json_file:
   data = json.load(json_file)
   api_key = data['STRIPE_APIKEY']
   stripe.api_key = api_key
-
-def createCustomer(name,email,paymentmethod_id):
+"""
+def createCustomer():
+    name = request.args.get('name',None)
+    email = request.args.get('email',None)
     return stripe.Customer.create(
         email = email,
-        name = name,
-        invoice_settings = [
-          {
-            "default_payment_method": paymentmethod_id
-          },
-        ]
+        name = name
     )
 
-def createSubscription(name,email):
-    user_id = createCustomer(name,email)['id']
+def attachPaymentMethod(payment_id,customer_id):
+    payment_method = stripe.PaymentMethod.attach(
+         payment_id,
+         customer = customer.id
+    )
+
+def createSubscription():
+    user_id = request.args.get('user_id',None)
+    plan_id = request.args.get('plan_id',None)
     return stripe.Subscription.create(
         customer = user_id,
         items = [
             {
-                "plan": "Bagito",
+                "plan": plan_id,
             },
         ]
     )
 
-def createPlanandProduct(price):
+def cancelSubscription(sub_id):
+    stripe.Subscription.delete(sub_id)
+def createPlanandProduct():
+    price = request.args.get('price',None)
     product = stripe.Product.create(
       name = "Bagito",
       type = "service",
@@ -36,7 +44,7 @@ def createPlanandProduct(price):
     return stripe.Plan.create(
         amount = price,
         interval = "month",
-        product = product['id'],
+        product = product.id,
         currency = "usd",
     )
 
