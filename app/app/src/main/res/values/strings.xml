@@ -8,6 +8,7 @@
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="prompt_confirm_password">Confirm Password</string>
+    <string name="prompt_confirm_new_password">Confirm New Password</string>
     <string name="prompt_city">City</string>
     <string name="prompt_state">State</string>
     <string name="action_sign_in">Sign in</string>
@@ -20,4 +21,13 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="personal_info">Personal Information</string>
+    <string name="allow_notif">Allow Notifications</string>
+    <string name="payment_info">Payment Information</string>
+    <string name="card_number">Card Number</string>
+    <string name="month_year">MM/YY</string>
+    <string name="cvv_number">CVV</string>
+    <string name="action_save">Save</string>
+    <string name="cancel_subscription">Cancel Subscription</string>
+
 </resources>
