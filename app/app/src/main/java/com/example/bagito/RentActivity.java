@@ -149,7 +149,8 @@ public class RentActivity extends AppCompatActivity implements ZXingScannerView.
 
         // Show the result of the scan and two buttons, OK and Visit
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Scan Result");
+        builder.setTitle("Scan Result, Rent Bag?");
+
         // Clicking on OK button will resume the scanning
         /*builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
@@ -158,7 +159,8 @@ public class RentActivity extends AppCompatActivity implements ZXingScannerView.
                 mScannerView.resumeCameraPreview(MainActivity.this);
             }
         });*/
-        // instead of above, have a Cancel button that terminates scanning
+
+        // instead of above, have a Cancel button that "refreshes" scanning (don't send to server)
         builder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -167,6 +169,7 @@ public class RentActivity extends AppCompatActivity implements ZXingScannerView.
                 //onDestroy();
             }
         });
+
         // Clicking on Visit button will open what was scanned
         /*builder.setNeutralButton("Purchase", new DialogInterface.OnClickListener() {
             @Override
@@ -175,12 +178,13 @@ public class RentActivity extends AppCompatActivity implements ZXingScannerView.
                 startActivity(browserIntent);
             }
         });*/
-        // instead of above, have a Buy button that sends bagID over to server for processing/DB
-        builder.setNeutralButton("Purchase", new DialogInterface.OnClickListener() {
+
+        // instead of above, have a rent button that sends bagID over to server for processing/DB (confirm)
+        builder.setNeutralButton("Rent", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(result));
-                System.out.println(browserIntent.toString());
+                System.out.println("browserIntent.toString result:" + browserIntent.toString());
             }
         });
         builder.setMessage(rawResult.getText());
