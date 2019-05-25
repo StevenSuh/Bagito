@@ -222,7 +222,7 @@
         <RelativeLayout
             android:clickable="true"
             android:focusable="true"
-            android:id="@+id/register_button"
+            android:id="@+id/save_changes_button"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

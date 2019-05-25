@@ -13,10 +13,14 @@
     <string name="prompt_state">State</string>
     <string name="action_sign_in">Sign in</string>
     <string name="action_register">Register</string>
+    <string name="error_missing_card_info">Please fill in all credit card information</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
+    <string name="error_invalid_card_number">This card number is invalid</string>
+    <string name="error_invalid_month_year">This month/year is invalid</string>
+    <string name="error_invalid_cvv">This CVV number is invalid</string>
     <string name="error_password_mismatch_with_confirm">The password does not match the previous one</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."

@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.ActionBar;
 import android.text.Html;
 import android.view.MotionEvent;
@@ -14,6 +16,12 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.example.bagito.About.AboutActivity;
+
+import java.time.YearMonth;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public class Utils {
 
@@ -25,6 +33,39 @@ public class Utils {
     // UX: mention this word limit to user when signing up instead of "password too short"
     public static boolean isPasswordValid(String password) {
         return password.length() > 4;
+    }
+
+    public static boolean isCardNumberValid(String cardNumber){
+        return cardNumber.length() > 15;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public static boolean isMonthYearValid(String monthYear){
+        //NOT SURE IF THIS WORKS
+        if(monthYear.length() != 4){
+            return false;
+        }
+        else{
+            DateTimeFormatter ccMonthFormatter = DateTimeFormatter.ofPattern("MMuu");
+            try {
+                YearMonth lastValidMonth = YearMonth.parse(monthYear, ccMonthFormatter);
+                if (YearMonth.now(ZoneId.of("America/Los_Angeles")).isAfter(lastValidMonth)) {
+                    return false;
+                }
+                else{
+                    return true;
+                }
+            } catch (DateTimeParseException dtpe) {
+                return false;
+            }
+        }
+    }
+
+    public static boolean isCVVValid(String cvv){
+        if(!(cvv.length()>= 3 && cvv.length()<=4)){
+            return false;
+        }
+        return true;
     }
 
     public static void setTouchEffect(View view, final boolean goDark, final boolean hasClick) {

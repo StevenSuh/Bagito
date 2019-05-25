@@ -97,7 +97,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-        RelativeLayout mRegisterButton = findViewById(R.id.register_button);
+        RelativeLayout mRegisterButton = findViewById(R.id.save_changes_button);
         mRegisterButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
