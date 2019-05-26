@@ -6,21 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".register.RegisterActivity">
 
-    <!-- No need for back button
-    <ImageView
-        android:id="@+id/back"
-        android:contentDescription="@string/back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:scaleType="fitXY"
-        android:adjustViewBounds="true"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:paddingLeft="16dp"
-        android:paddingTop="18dp"
-        android:src="@drawable/arrow_left" />
-    -->
-
     <!-- top action bar -->
     <include layout="@layout/toolbar" android:id="@+id/toolbar" />
     <View android:layout_width="match_parent"
@@ -35,262 +20,303 @@
         app:layout_constraintTop_toTopOf="parent" />
     <!-- top action bar end -->
 
+    <ImageView
+        android:id="@+id/back"
+        android:contentDescription="@string/back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:paddingLeft="16dp"
+        android:paddingTop="12dp"
+        android:src="@drawable/arrow_left" />
+
+    <!-- bottom navbar -->
+    <include layout="@layout/navbar"
+        android:id="@+id/navbar"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        app:layout_constraintBottom_toBottomOf="parent" />
+    <View android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="@drawable/dropshadow"
+        android:rotation="180"
+        android:layout_marginBottom="65dp"
+        app:layout_constraintBottom_toBottomOf="parent" />
+    <View android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorPrimaryLight"
+        android:layout_marginBottom="65dp"
+        app:layout_constraintBottom_toBottomOf="parent" />
+    <!-- bottom navbar end -->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_vertical"
         android:orientation="vertical"
-        android:paddingLeft="@dimen/activity_horizontal_margin_tight"
-        android:paddingRight="@dimen/activity_horizontal_margin_tight" >
+        android:scrollbars="vertical"
+        android:layout_marginTop="?actionBarSize"
+        android:layout_marginBottom="65dp">
 
-
-        <TextView
-            android:id="@+id/personal_info"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/personal_info"
-            android:layout_marginTop="56dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:textSize="14sp"
-            android:textColor="#444444"
-            android:gravity="top" />
-            <!--  -->
-            <!--android:layout_marginLeft="24dp" -->
-
-
-
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <EditText
-                android:id="@+id/name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/prompt_name"
-                android:inputType="text"
-                android:maxLines="1"
-                android:textSize="12sp"
-                android:singleLine="true" />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <EditText
-                android:id="@+id/email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/prompt_email"
-                android:inputType="textEmailAddress"
-                android:maxLines="1"
-                android:textSize="12sp"
-                android:singleLine="true" />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <EditText
-                android:id="@+id/password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/prompt_password"
-                android:inputType="textPassword"
-                android:maxLines="1"
-                android:textSize="12sp"
-                android:singleLine="true" />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <EditText
-                android:id="@+id/confirm_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/prompt_confirm_new_password"
-                android:inputType="textPassword"
-                android:maxLines="1"
-                android:textSize="12sp"
-                android:singleLine="true" />
-        </android.support.design.widget.TextInputLayout>
-
-        <!-- Allow notifications -->
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/allow_notif"
-
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:text="@string/allow_notif"
-                android:textAppearance="@style/allow_notif"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:gravity="center"/>
-
-            <CheckBox
-                android:id="@+id/checkBox"
-
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginLeft="100dp"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:gravity="center"
-                />
-        </LinearLayout>
-
-
-        <TextView
-            android:id="@+id/payment_info"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/payment_info"
-            android:layout_marginTop="20dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:textSize="14sp"
-            android:textStyle="bold|italic"
-            android:gravity="top"
-            android:textColor="#444444"/>
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        <EditText
-            android:id="@+id/card_number"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/card_number"
-            android:inputType="phone"
-            android:maxLines="1"
-            android:textSize="12sp"
-            android:singleLine="true" />
-        </android.support.design.widget.TextInputLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <ScrollView
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content">
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="fill_parent"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:gravity="center">
-                <EditText
-                    android:id="@+id/month_year"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/activity_horizontal_margin_medium"
+                android:paddingRight="@dimen/activity_horizontal_margin_medium">
+
+                <TextView
+                    android:id="@+id/personal_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/month_year"
-                    android:inputType="phone"
-                    android:maxLines="1"
-                    android:textSize="12sp"
-                    android:singleLine="true"
-                    />
-            </android.support.design.widget.TextInputLayout>
+                    android:text="@string/personal_info"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin_medium"
+                    android:layout_marginBottom="16dp"
+                    android:textSize="18sp"
+                    android:textColor="#444444"
+                    android:textStyle="bold"
+                    android:gravity="top" />
+                    <!--  -->
+                    <!--android:layout_marginLeft="24dp" -->
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:gravity="center">
-                <EditText
-                    android:id="@+id/cvv_number"
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <EditText
+                        android:id="@+id/name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/prompt_name"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:textSize="16sp"
+                        android:singleLine="true" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <EditText
+                        android:id="@+id/email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/prompt_email"
+                        android:inputType="textEmailAddress"
+                        android:maxLines="1"
+                        android:textSize="16sp"
+                        android:singleLine="true" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <EditText
+                        android:id="@+id/password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/prompt_password"
+                        android:inputType="textPassword"
+                        android:maxLines="1"
+                        android:textSize="16sp"
+                        android:singleLine="true" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <EditText
+                        android:id="@+id/confirm_password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/prompt_confirm_new_password"
+                        android:inputType="textPassword"
+                        android:maxLines="1"
+                        android:textSize="16sp"
+                        android:singleLine="true" />
+                </android.support.design.widget.TextInputLayout>
+
+                <!-- Allow notifications -->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/allow_notif"
+                        android:text="@string/allow_notif"
+                        android:textAppearance="@style/allow_notif"
+                        android:paddingLeft="4dp"
+                        android:textSize="16sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <CheckBox
+                        android:id="@+id/checkBox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+
+                <TextView
+                    android:id="@+id/payment_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/cvv_number"
-                    android:inputType="phone"
-                    android:maxLines="1"
-                    android:textSize="12sp"
-                    android:singleLine="true" />
-            </android.support.design.widget.TextInputLayout>
+                    android:text="@string/payment_info"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginBottom="16dp"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:gravity="top"
+                    android:textColor="#444444"/>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <EditText
+                        android:id="@+id/card_number"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/card_number"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:maxLength="16"
+                        android:textSize="16sp"
+                        android:singleLine="true" />
+                </android.support.design.widget.TextInputLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:gravity="center">
+                        <EditText
+                            android:id="@+id/month_year"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/month_year"
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:maxLength="5"
+                            android:textSize="16sp"
+                            android:singleLine="true" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:gravity="center">
+                        <EditText
+                            android:id="@+id/cvv_number"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/cvv_number"
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:maxLength="3"
+                            android:textSize="16sp"
+                            android:singleLine="true" />
+                    </android.support.design.widget.TextInputLayout>
 
 
-        </LinearLayout>
+                </LinearLayout>
 
-        <RelativeLayout
-            android:clickable="true"
-            android:focusable="true"
-            android:id="@+id/save_changes_button"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:layout_gravity="center"
-            android:background="@drawable/rounded_button">
+                <RelativeLayout
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:id="@+id/save_changes_button"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/rounded_button">
 
-            <TextView
-                android:id="@+id/save_changes_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:fontFamily="@font/open_sans"
-                android:text="@string/action_save"
-                android:textAllCaps="true"
-                android:textColor="@color/colorLight"
-                android:textStyle="bold"
-                android:visibility="visible" />
+                    <TextView
+                        android:id="@+id/save_changes_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:fontFamily="@font/open_sans"
+                        android:layout_marginTop="2dp"
+                        android:text="@string/action_save"
+                        android:textAllCaps="true"
+                        android:textColor="@color/colorLight"
+                        android:textStyle="bold"
+                        android:visibility="visible" />
 
-            <!-- Login progress -->
+                    <!-- Login progress -->
 
-            <ProgressBar
-                android:id="@+id/save_changes_progress"
-                android:layout_width="wrap_content"
-                android:layout_height="25dp"
-                android:layout_centerHorizontal="true"
-                android:indeterminate="true"
-                android:indeterminateDrawable="@drawable/progress_dark"
-                android:visibility="invisible" />
+                    <ProgressBar
+                        android:id="@+id/save_changes_progress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:layout_centerHorizontal="true"
+                        android:indeterminate="true"
+                        android:indeterminateDrawable="@drawable/progress_dark"
+                        android:visibility="invisible" />
 
-        </RelativeLayout>
+                </RelativeLayout>
 
-        <RelativeLayout
-            android:clickable="true"
-            android:focusable="true"
-            android:id="@+id/cancel_subscription_button"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:layout_gravity="center"
-            android:background="@drawable/rounded_button_border"
-            >
+                <RelativeLayout
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:id="@+id/cancel_subscription_button"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginBottom="25dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/rounded_button_border"
+                    >
 
-            <TextView
-                android:id="@+id/cancel_subscription_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:fontFamily="@font/open_sans"
-                android:text="@string/cancel_subscription"
-                android:textAllCaps="true"
-                android:textColor="#366D89"
-                android:textStyle="bold"
-                android:visibility="visible" />
+                    <TextView
+                        android:id="@+id/cancel_subscription_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="2dp"
+                        android:fontFamily="@font/open_sans"
+                        android:text="@string/cancel_subscription"
+                        android:textAllCaps="true"
+                        android:textColor="#366D89"
+                        android:textStyle="bold"
+                        android:visibility="visible" />
 
-            <!-- Cancel Subscription progress -->
+                    <!-- Cancel Subscription progress -->
 
-            <ProgressBar
-                android:id="@+id/cancel_subscription_progress"
-                android:layout_width="wrap_content"
-                android:layout_height="25dp"
-                android:layout_centerHorizontal="true"
-                android:indeterminate="true"
-                android:indeterminateDrawable="@drawable/progress_dark"
-                android:visibility="invisible" />
+                    <ProgressBar
+                        android:id="@+id/cancel_subscription_progress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:layout_centerHorizontal="true"
+                        android:indeterminate="true"
+                        android:indeterminateDrawable="@drawable/progress"
+                        android:visibility="invisible" />
 
-        </RelativeLayout>
+                </RelativeLayout>
+
+            </LinearLayout>
+        </ScrollView>
 
     </LinearLayout>
 

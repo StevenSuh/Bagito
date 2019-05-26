@@ -1,25 +1,17 @@
 package com.example.bagito;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.support.v7.app.ActionBar;
-import android.text.Html;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.LinearLayout;
 
-import com.example.bagito.About.AboutActivity;
+import com.example.bagito.Account.AccountActivity;
 
 import java.time.YearMonth;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
@@ -36,36 +28,24 @@ public class Utils {
     }
 
     public static boolean isCardNumberValid(String cardNumber){
-        return cardNumber.length() > 15;
+        return cardNumber.length() == 16;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public static boolean isMonthYearValid(String monthYear){
-        //NOT SURE IF THIS WORKS
-        if(monthYear.length() != 4){
-            return false;
-        }
-        else{
-            DateTimeFormatter ccMonthFormatter = DateTimeFormatter.ofPattern("MMuu");
-            try {
-                YearMonth lastValidMonth = YearMonth.parse(monthYear, ccMonthFormatter);
-                if (YearMonth.now(ZoneId.of("America/Los_Angeles")).isAfter(lastValidMonth)) {
-                    return false;
-                }
-                else{
-                    return true;
-                }
-            } catch (DateTimeParseException dtpe) {
-                return false;
-            }
-        }
+    public static boolean isMonthYearValid(String monthYear) {
+        return monthYear.length() == 5 && monthYear.charAt(2) == '/';
     }
 
     public static boolean isCVVValid(String cvv){
-        if(!(cvv.length()>= 3 && cvv.length()<=4)){
+        return cvv.length() == 3;
+    }
+
+    public static boolean canParseInt(String number) {
+        try {
+            Integer.parseInt(number);
+            return true;
+        } catch (NumberFormatException e) {
             return false;
         }
-        return true;
     }
 
     public static void setTouchEffect(View view, final boolean goDark, final boolean hasClick) {
@@ -94,19 +74,16 @@ public class Utils {
                                   final View homeButton,
                                   final View rentButton,
                                   final View returnButton,
-                                  final View accountButton,
-                                  final View aboutButton) {
+                                  final View accountButton) {
         homeButton.setAlpha(0.5f);
         rentButton.setAlpha(0.5f);
         returnButton.setAlpha(0.5f);
         accountButton.setAlpha(0.5f);
-//        aboutButton.setAlpha(0.5f);
 
         setTouchEffect(homeButton, false, true);
         setTouchEffect(rentButton, false, true);
         setTouchEffect(returnButton, false, true);
         setTouchEffect(accountButton, false, true);
-//        setTouchEffect(aboutButton, false, true);
 
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,18 +109,10 @@ public class Utils {
         accountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                    Intent intent = new Intent(v.getContext(), AccountActivity.class);
-//                    context.startActivity(intent);
+                    Intent intent = new Intent(v.getContext(), AccountActivity.class);
+                    context.startActivity(intent);
             }
         });
-//        aboutButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                System.out.println("I\'m in onclicklistener");
-//                Intent intent = new Intent(v.getContext(), AboutActivity.class);
-//                context.startActivity(intent);
-//            }
-//        });
 
         if (currentPage.equals(Enums.HOME_BUTTON.toString())) {
             homeButton.setAlpha(1);
@@ -161,10 +130,6 @@ public class Utils {
             accountButton.setAlpha(1);
             accountButton.setOnTouchListener(null);
             accountButton.setOnClickListener(null);
-//        } else if (currentPage.equals(Enums.ABOUT_BUTTON.toString())) {
-//            aboutButton.setAlpha(1);
-//            aboutButton.setOnTouchListener(null);
-//            aboutButton.setOnClickListener(null);
         }
     }
 

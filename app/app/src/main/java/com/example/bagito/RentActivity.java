@@ -1,5 +1,8 @@
 package com.example.bagito;
 
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 // additional imports from androidtutorialonline.com
@@ -11,21 +14,34 @@ import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.google.zxing.Result;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import cz.msebera.android.httpclient.Header;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
+
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.Manifest.permission.CAMERA;
 
 // NOTE: following androidtutorialonline -- replacing Activity name
 // "QrCodeScannerActivity" with "RentActivity"
 
 // implementation also acts as Barcode scanner
-public class RentActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler{
+public class RentActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler, LocationListener {
 
-    private static final int REQUEST_CAMERA = 1;
+    private static final int REQUEST = 1;
     private ZXingScannerView mScannerView;          // view to scan the QR code
+
+    private LocationManager locationManager;
+    private String location = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,47 +67,34 @@ public class RentActivity extends AppCompatActivity implements ZXingScannerView.
 
     // checks user permissions
     private boolean checkPermission() {
-        return ( ContextCompat.checkSelfPermission(getApplicationContext(), CAMERA ) == PackageManager.PERMISSION_GRANTED);
+        return (ContextCompat.checkSelfPermission(getApplicationContext(), CAMERA) == PackageManager.PERMISSION_GRANTED);
     }
 
     // requests user permissions
     private void requestPermission() {
-        ActivityCompat.requestPermissions(this, new String[]{CAMERA}, REQUEST_CAMERA);
+        ActivityCompat.requestPermissions(this, new String[]{CAMERA, ACCESS_FINE_LOCATION}, REQUEST);
     }
 
     // UNDERSTAND AND TEST THIS METHOD
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case REQUEST_CAMERA:
-                if (grantResults.length > 0) {
-                    for (int i = 0; i < grantResults.length; i++){
-                        System.out.println(grantResults[i]);
-                    }
-
-                    boolean cameraAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-                    if (cameraAccepted){
-                        Toast.makeText(getApplicationContext(), "Permission Granted, Now you can access camera", Toast.LENGTH_LONG).show();
-                    }
-                    else {
-                        Toast.makeText(getApplicationContext(), "Permission Denied, You cannot access and camera", Toast.LENGTH_LONG).show();
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            if (shouldShowRequestPermissionRationale(CAMERA)) {
-                                showMessageOKCancel("You need to allow access to both the permissions",
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                                    requestPermissions(new String[]{CAMERA},
-                                                            REQUEST_CAMERA);
-                                                }
-                                            }
-                                        });
-                                return;
-                            }
-                        }
+        if (requestCode == REQUEST) {
+            boolean cameraAccepted = (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED);
+            if (cameraAccepted) {
+                Toast.makeText(getApplicationContext(), "Permission Granted.", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getApplicationContext(), "Permission Denied.", Toast.LENGTH_LONG).show();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (shouldShowRequestPermissionRationale(CAMERA)) {
+                        showMessageOKCancel("You need to allow access to the camera",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        requestPermissions(new String[]{CAMERA}, REQUEST);
+                                    }
+                                });
                     }
                 }
-                break;
+            }
         }
     }
 
@@ -99,7 +102,7 @@ public class RentActivity extends AppCompatActivity implements ZXingScannerView.
     private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
         new android.support.v7.app.AlertDialog.Builder(RentActivity.this)
                 .setMessage(message)
-                .setPositiveButton("Purchase", okListener)
+                .setPositiveButton("OK", okListener)
                 .setNegativeButton("Cancel", null)
                 .create()
                 .show();
@@ -135,63 +138,119 @@ public class RentActivity extends AppCompatActivity implements ZXingScannerView.
     public void onDestroy() {
         super.onDestroy();
         mScannerView.stopCamera();
-    }//<code class="java plain">
+    }
 
     // handles result of the QR Code scan
     @Override
     public void handleResult(Result rawResult) {
-        final String result = rawResult.getText();  // literally whatever is in the QR code
-        // Log result to the LogCat
-        System.out.println("String result:" + result);
+        getLocation();
 
-        Log.d("QRCodeScanner", rawResult.getText());    // returns text (e.g. http://www.google.com")
-        Log.d("QRCodeScanner", rawResult.getBarcodeFormat().toString()); // returns QR_CODE
+        final String result = rawResult.getText();  // literally whatever is in the QR code
 
         // Show the result of the scan and two buttons, OK and Visit
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Scan Result, Rent Bag?");
-
-        // Clicking on OK button will resume the scanning
-        /*builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                //mScannerView.resumeCameraPreview(QrCodeScannerActivity.this);
-                mScannerView.resumeCameraPreview(MainActivity.this);
-            }
-        });*/
+        builder.setTitle("Bag successfully scanned!");
 
         // instead of above, have a Cancel button that "refreshes" scanning (don't send to server)
-        builder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //mScannerView.resumeCameraPreview(QrCodeScannerActivity.this);
                 mScannerView.resumeCameraPreview(RentActivity.this);
-                //onDestroy();
             }
         });
 
-        // Clicking on Visit button will open what was scanned
-        /*builder.setNeutralButton("Purchase", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(result));
-                startActivity(browserIntent);
-            }
-        });*/
-
         // instead of above, have a rent button that sends bagID over to server for processing/DB (confirm)
-        builder.setNeutralButton("Rent", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Rent", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(result));
-                System.out.println("browserIntent.toString result:" + browserIntent.toString());
+                rentBag(result);
             }
         });
         builder.setMessage(rawResult.getText());
-        AlertDialog alert1 = builder.create();
-        alert1.show();
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
+    // getting location
+    private void getLocation() {
+        try {
+            locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 5, this);
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        }
+    }
 
+    @Override
+    public void onLocationChanged(Location loc) {
+        location = loc.getLatitude() + ", " + loc.getLongitude();
+    }
 
+    @Override
+    public void onProviderDisabled(String provider) {}
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {}
+
+    @Override
+    public void onProviderEnabled(String provider) {}
+
+    private void rentBag(String bagId) {
+        DataHolder.User user = DataHolder.getInstance().getUser();
+
+        RequestParams rp = new RequestParams();
+        rp.add("user_id", Integer.toString(user.id));
+        rp.add("bag_qrcode_id", bagId);
+        rp.add("location", location);
+
+        HttpUtils.post("/api/rent", rp, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                successRent();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                failureRent(null);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                if (errorResponse == null) {
+                    failureRent(null);
+                    return;
+                }
+
+                try {
+                    String message = errorResponse.getString(HttpUtils.ERROR_MSG);
+                    failureRent(message);
+                } catch (JSONException e) {
+                    failureRent(null);
+                }
+            }
+        });
+    }
+
+    private void successRent() {
+        // Show the result of the scan and two buttons, OK and Visit
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Bag successfully rented!");
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    private void failureRent(String error) {
+        if (TextUtils.isEmpty(error)) {
+            error = "Server error";
+        }
+        Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
+        mScannerView.resumeCameraPreview(RentActivity.this);
+    }
 }

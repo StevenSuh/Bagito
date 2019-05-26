@@ -6,18 +6,60 @@
     android:layout_height="match_parent"
     tools:context=".Account.AccountActivity">
 
+    <!-- top action bar -->
     <include layout="@layout/toolbar" android:id="@+id/toolbar" />
+    <View android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="@drawable/dropshadow"
+        android:layout_marginTop="?actionBarSize"
+        app:layout_constraintTop_toTopOf="parent" />
+    <View android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorPrimaryLight"
+        android:layout_marginTop="?actionBarSize"
+        app:layout_constraintTop_toTopOf="parent" />
+    <!-- top action bar end -->
 
-    <ListView
-        android:id="@+id/webpageListView"
-        android:layout_width="405dp"
-        android:layout_height="393dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="4dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:layout_constraintVertical_bias="0.804"
-        tools:layout_editor_absoluteX="0dp" />
+    <!-- bottom navbar -->
+    <include layout="@layout/navbar"
+        android:id="@+id/navbar"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        app:layout_constraintBottom_toBottomOf="parent" />
+    <View android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="@drawable/dropshadow"
+        android:rotation="180"
+        android:layout_marginBottom="65dp"
+        app:layout_constraintBottom_toBottomOf="parent" />
+    <View android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorPrimaryLight"
+        android:layout_marginBottom="65dp"
+        app:layout_constraintBottom_toBottomOf="parent" />
+    <!-- bottom navbar end -->
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?actionBarSize"
+        android:layout_marginBottom="65dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <ListView
+            android:id="@+id/settingsListView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp" />
+
+        <ListView
+            android:id="@+id/webpageListView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

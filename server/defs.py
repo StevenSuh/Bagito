@@ -3,6 +3,8 @@ GSHEETS_GOOGLE_MAP = "Google Map Link"
 GSHEETS_HOURS = "Hours"
 GSHEETS_NAME = "Name"
 
+DEFAULT_PLAN_PRICE = 499 # in cents, equivalent to $4.99
+
 STATE_LIST = [
     "AL",
     "AK",

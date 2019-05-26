@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -52,7 +51,8 @@ public class MainActivity extends AppCompatActivity {
     private boolean isLoggedIn;
 
     private boolean isLoadingList = false;
-    private String query = "";
+    private String currCity = "";
+    private String currState = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,25 +83,25 @@ public class MainActivity extends AppCompatActivity {
         LinearLayout rentButton = findViewById(R.id.rent_button);
         LinearLayout returnButton = findViewById(R.id.return_button);
         LinearLayout accountButton = findViewById(R.id.account_button);
-        LinearLayout aboutButton = findViewById(R.id.account_button);
 
         Utils.initNavbar(this,
                 Enums.HOME_BUTTON.toString(),
                 homeButton,
                 rentButton,
                 returnButton,
-                accountButton,
-                aboutButton);
+                accountButton);
 
         initModal();
         DataHolder.initDataHolder(this, new Runnable() {
             @Override
             public void run() {
                 DataHolder.User user = DataHolder.getInstance().getUser();
-                query = user.city + ", " + user.state;
+                currCity = user.city;
+                currState = user.state;
 
                 if (TextUtils.isEmpty(user.city) || TextUtils.isEmpty(user.state)) {
-                    query = "Santa Cruz, CA";
+                    currCity = "Santa Cruz";
+                    currState = "CA";
                 }
 
                 getPartnerList();
@@ -110,11 +110,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getPartnerList() {
+        String query = currCity + ", " + currState;
+        String formattedQuery = currCity.toLowerCase() + ", " + currState.toUpperCase();
+
         nearText.setText("Near " + query);
         findViewById(R.id.empty_list).setVisibility(View.GONE);
 
         RequestParams rp = new RequestParams();
-        rp.add("query", query);
+        rp.add("query", formattedQuery);
 
         HttpUtils.get("/api/partner", rp, new JsonHttpResponseHandler() {
             @Override
@@ -282,10 +285,13 @@ public class MainActivity extends AppCompatActivity {
 
                 String city = filterCity.getText().toString();
                 String state = filterState.getText().toString();
-                query = city + ", " + state;
+
+                currCity = city;
+                currState = state;
 
                 if (TextUtils.isEmpty(city) || TextUtils.isEmpty(state)) {
-                    query = "Santa Cruz, CA";
+                    currCity = "Santa Cruz";
+                    currState = "CA";
                 }
 
                 if (!TextUtils.isEmpty(state) && !Arrays.asList(states).contains(state)) {
@@ -315,10 +321,8 @@ public class MainActivity extends AppCompatActivity {
         filterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DataHolder.User user = DataHolder.getInstance().getUser();
-
-                filterCity.setText(user.city);
-                filterState.setText(user.state);
+                filterCity.setText(currCity);
+                filterState.setText(currState);
 
                 modalBg.animate()
                         .setDuration(200)

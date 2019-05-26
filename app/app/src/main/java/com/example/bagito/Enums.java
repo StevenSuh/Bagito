@@ -5,9 +5,9 @@ public enum Enums {
     RENT_BUTTON("rent_button"),
     RETURN_BUTTON("return_button"),
     ACCOUNT_BUTTON("account_button"),
-    ABOUT_BUTTON("about_button"),
     SHARED_PREFS("SHARED_PREFS"),
-    IS_LOGGED_IN("IS_LOGGED_IN");
+    IS_LOGGED_IN("IS_LOGGED_IN"),
+    ALLOW_NOTIFICATIONS("ALLOW_NOTIFICATIONS");
 
     private String enumType;
 

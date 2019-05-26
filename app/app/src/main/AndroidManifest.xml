@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
     <!-- Permissions and features from AndroidQRCodeScanner's .xml-->
     <uses-permission android:name="android.permission.CAMERA"/>
@@ -12,11 +13,16 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:label="Bagito"
+        android:icon="@drawable/app_logo"
+        android:roundIcon="@drawable/app_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".Account.AccountActivity"></activity>
+        <activity android:name=".Account.ChangeApi"></activity>
         <activity android:name=".Account.ChangeInfo"></activity>
+        <activity android:name=".Account.PrivacyPolicyActivity"></activity>
+        <activity android:name=".Account.TOSActivity"></activity>
         <activity android:name=".forgot.ResetPasswordActivity" />
         <activity android:name=".forgot.CodeActivity" />
         <activity android:name=".forgot.EmailActivity" />
@@ -31,7 +37,6 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

@@ -86,10 +86,8 @@ public class RegisterApi {
 
     private static void failureLogin(Context context, String error) {
         if (TextUtils.isEmpty(error)) {
-            error = "Failed server response";
+            error = "Server error";
         }
-
         Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
     }
-
 }

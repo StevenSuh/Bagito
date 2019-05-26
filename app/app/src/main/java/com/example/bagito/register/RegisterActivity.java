@@ -54,17 +54,7 @@ public class RegisterActivity extends AppCompatActivity {
                 finish();
             }
         });
-        mBack.setOnTouchListener(new OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    v.setAlpha(0.5f);
-                } else {
-                    v.setAlpha(1f);
-                }
-                return false;
-            }
-        });
+        Utils.setTouchEffect(mBack, true, true);
 
         mNameView = findViewById(R.id.name);
         mEmailView = findViewById(R.id.email);

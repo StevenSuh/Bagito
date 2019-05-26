@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Bagito</string>
+    <string name="stripe_key">pk_test_3qyizapfoMvt2elZoP1JNC3g</string>
+    <string name="subscription_details">Updating your card will begin your Bagito subscription at $4.99/month.</string>
+    <string name="subscription_cancel_details">Cancelling your Bagito subscription will also remove your card.</string>
     <string name="title_activity_login">Sign in</string>
     <string name="bagito_logo">Bagito Logo</string>
     <string name="back">back</string>
@@ -18,6 +21,7 @@
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
+    <string name="error_invalid_card">This card is invalid</string>
     <string name="error_invalid_card_number">This card number is invalid</string>
     <string name="error_invalid_month_year">This month/year is invalid</string>
     <string name="error_invalid_cvv">This CVV number is invalid</string>

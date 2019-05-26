@@ -25,23 +25,27 @@ public class DataHolder {
         public static String EMAIL= "user_email";
         public static String CITY = "user_city";
         public static String STATE = "user_state";
+        public static String HAS_PAYMENT = "user_has_payment";
 
         public int id;
         public String name;
         public String email;
         public String city;
         public String state;
+        public boolean hasPayment;
 
         public User(int id,
                     String name,
                     String email,
                     String city,
-                    String state) {
+                    String state,
+                    boolean hasPayment) {
             this.id = id;
             this.name = name;
             this.email = email;
             this.city = city;
             this.state = state;
+            this.hasPayment = hasPayment;
         }
     }
 
@@ -59,6 +63,7 @@ public class DataHolder {
             .putString(User.EMAIL, user.email)
             .putString(User.CITY, user.city)
             .putString(User.STATE, user.state)
+            .putBoolean(User.HAS_PAYMENT, user.hasPayment)
             .apply();
     }
 
@@ -85,8 +90,9 @@ public class DataHolder {
             String email = prefs.getString(User.EMAIL, "");
             String city = prefs.getString(User.CITY, "");
             String state = prefs.getString(User.STATE, "");
+            boolean hasPayment = prefs.getBoolean(User.HAS_PAYMENT, false);
 
-            User user = new DataHolder.User(id, name, email, city, state);
+            User user = new DataHolder.User(id, name, email, city, state, hasPayment);
 
             initSuccess(user, prefs);
         }

@@ -39,8 +39,9 @@ public class LoginApi {
                     String email = response.getString(DataHolder.User.EMAIL);
                     String city = response.getString(DataHolder.User.CITY);
                     String state = response.getString(DataHolder.User.STATE);
+                    boolean hasPayment = response.getBoolean(DataHolder.User.HAS_PAYMENT);
 
-                    DataHolder.User user = new DataHolder.User(id, name, email, city, state);
+                    DataHolder.User user = new DataHolder.User(id, name, email, city, state, hasPayment);
                     successLogin(context, user);
                 } catch (JSONException e) {
                     failureLogin(context, null);
@@ -87,7 +88,7 @@ public class LoginApi {
 
     private static void failureLogin(Context context, String error) {
         if (TextUtils.isEmpty(error)) {
-            error = "Failed server response";
+            error = "Server error";
         }
 
         Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
