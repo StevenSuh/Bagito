@@ -21,8 +21,6 @@
         <activity android:name=".Account.AccountActivity"></activity>
         <activity android:name=".Account.ChangeApi"></activity>
         <activity android:name=".Account.ChangeInfo"></activity>
-        <activity android:name=".Account.PrivacyPolicyActivity"></activity>
-        <activity android:name=".Account.TOSActivity"></activity>
         <activity android:name=".forgot.ResetPasswordActivity" />
         <activity android:name=".forgot.CodeActivity" />
         <activity android:name=".forgot.EmailActivity" />

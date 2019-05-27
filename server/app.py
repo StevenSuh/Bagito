@@ -258,12 +258,22 @@ def return_bag():
   bin_qrcode_id = request.form.get('bin_qrcode_id', None)
   location = request.form.get('location', None)
 
-  if any(v is None for v in [user_id, bag_qrcode_id, bin_qrcode_id, location]):
+  if any(v is None for v in [user_id, bag_qrcode_id, bin_qrcode_id]):
     return jsonify(msg='Invalid parameters'), 400
 
   current_bag = Bag.query.filter_by(qrcode_id=bag_qrcode_id).first()
+  if current_bag is None:
+    return jsonify(msg='Invalid bag'), 404
+  if current_bag.current_user != user_id:
+    return jsonify(msg='You have not rented this bag'), 400
+
   rental = Rental.query.filter_by(id=current_bag.rental_id).first()
+  if rental is None:
+    return jsonify(msg='Invalid rental'), 404
+
   current_bin = Bin.query.filter_by(qrcode_id=bin_qrcode_id).first()
+  if current_bin is None:
+    return jsonify(msg='Invalid bin'), 404
 
   current_bag.current_user = None
   current_bag.rental_id = None
@@ -291,7 +301,7 @@ def rent():
   bag_qrcode_id = request.form.get('bag_qrcode_id', None)
   location = request.form.get('location', None)
 
-  if any(v is None for v in [user_id, bag_qrcode_id, location]):
+  if any(v is None for v in [user_id, bag_qrcode_id]):
     return jsonify(msg='Invalid parameters'), 400
 
   user = User.query.filter_by(id=user_id).first()
@@ -302,6 +312,11 @@ def rent():
     return jsonify(msg='Account does not have a valid subscription'), 400
 
   current_bag = Bag.query.filter_by(qrcode_id=bag_qrcode_id).first()
+  if current_bag is None:
+    return jsonify(msg='Invalid bag'), 404
+  if current_bag.current_user:
+    return jsonify(msg='Someone has already rented this bag'), 400
+
   current_bag.current_user = user_id
   current_bag.bin_id = None
 

@@ -16,6 +16,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.google.zxing.Result;
@@ -50,16 +51,15 @@ public class RentActivity extends AppCompatActivity implements ZXingScannerView.
         Log.e("onCreate", "onCreate");
 
         mScannerView = new ZXingScannerView(this);
-        setContentView(mScannerView);
+        setContentView(R.layout.scanner);
+
+        ViewGroup contentFrame = findViewById(R.id.content_frame);
+        contentFrame.addView(mScannerView);
+
         // Have to get user permissions at runtime --> check API version
         int currentapiVersion = android.os.Build.VERSION.SDK_INT;
         if (currentapiVersion >= android.os.Build.VERSION_CODES.M) {
-            if (checkPermission()) {
-                Toast.makeText(getApplicationContext(),
-                        "Permission already granted",
-                        Toast.LENGTH_LONG).show();
-            }
-            else {
+            if (!checkPermission()) {
                 requestPermission();
             }
         }
@@ -79,9 +79,7 @@ public class RentActivity extends AppCompatActivity implements ZXingScannerView.
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         if (requestCode == REQUEST) {
             boolean cameraAccepted = (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED);
-            if (cameraAccepted) {
-                Toast.makeText(getApplicationContext(), "Permission Granted.", Toast.LENGTH_LONG).show();
-            } else {
+            if (!cameraAccepted) {
                 Toast.makeText(getApplicationContext(), "Permission Denied.", Toast.LENGTH_LONG).show();
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     if (shouldShowRequestPermissionRationale(CAMERA)) {

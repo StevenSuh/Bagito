@@ -23,7 +23,7 @@ import org.w3c.dom.Text;
 
 public class AccountActivity extends AppCompatActivity {
 
-    String [] info = new String [] {"Power2Sustain Website", "Bagito Website", "Terms of Service", "Privacy Policy"};
+    String [] info = new String [] {"Power2Sustain Website", "Bagito Website"};
     String [] settingsOptions = new String [] {"Check Rental Status", "Change Settings", "Sign Out"};
 
     @Override
@@ -71,10 +71,6 @@ public class AccountActivity extends AppCompatActivity {
                     power2SustainWebsite();
                 } else if (info[position].equals("Bagito Website")) {
                     bagitoWebsite();
-                } else if (info[position].equals("Terms of Service")) {
-                    termsOSPage();
-                } else if (info[position].equals("Privacy Policy")) {
-                    privacyPolicyPage();
                 }
             }
         });
@@ -103,16 +99,6 @@ public class AccountActivity extends AppCompatActivity {
         if (goToBagito.resolveActivity(getPackageManager()) != null){
             startActivity(goToBagito);
         }
-    }
-
-    public void termsOSPage(){
-        Intent startIntent = new Intent(this, TOSActivity.class);
-        startActivity(startIntent);
-    }
-
-    public void privacyPolicyPage(){
-        Intent startIntent = new Intent(this, PrivacyPolicyActivity.class);
-        startActivity(startIntent);
     }
 
     public void checkRentalStatus() {

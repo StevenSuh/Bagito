@@ -13,6 +13,11 @@ if response is None:
 
 new_plan = Plan(stripe_plan_token=response.id)
 db.session.add(new_plan)
+
+# test bag
+new_bag = Bag(qrcode_id="bagito")
+db.session.add(new_bag)
+
 db.session.commit()
 
 print("DB created.")
