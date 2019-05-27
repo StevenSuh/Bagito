@@ -1,0 +1,7 @@
+runtime: python37
+
+beta_settings:
+  cloud_sql_instances: bagito:us-central1:bagito-db
+handlers:
+- url: /.*
+  script: auto

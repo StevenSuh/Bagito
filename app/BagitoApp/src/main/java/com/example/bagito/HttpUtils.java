@@ -10,7 +10,7 @@ import com.loopj.android.http.RequestParams;
 
 public class HttpUtils {
 
-    private static final String BASE_URL = "http://10.0.2.2:5000";
+    private static final String BASE_URL = "https://bagito.appspot.com";
     private static ConnectivityManager connectivityManager;
     private static AsyncHttpClient client = new AsyncHttpClient();
 
