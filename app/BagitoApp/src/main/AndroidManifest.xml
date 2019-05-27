@@ -18,12 +18,14 @@
         android:roundIcon="@drawable/app_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Account.AccountActivity"></activity>
-        <activity android:name=".Account.ChangeApi"></activity>
-        <activity android:name=".Account.ChangeInfo"></activity>
+        <activity android:name=".Account.AccountActivity" />
+        <activity android:name=".Account.ChangeApi" />
+        <activity android:name=".Account.ChangeInfo" />
         <activity android:name=".forgot.ResetPasswordActivity" />
         <activity android:name=".forgot.CodeActivity" />
         <activity android:name=".forgot.EmailActivity" />
+        <activity android:name=".RentActivity"/>
+        <activity android:name=".ReturnActivity"/>
         <activity
             android:name=".register.RegisterActivity"
             android:parentActivityName=".login.LoginActivity"
@@ -38,10 +40,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <!-- idk if I did this right lol, but should be something similar?-->
-        <activity android:name = ".RentActivity"/>
-
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

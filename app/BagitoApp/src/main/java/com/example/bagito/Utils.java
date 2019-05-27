@@ -102,8 +102,8 @@ public class Utils {
         returnButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                    Intent intent = new Intent(v.getContext(), ReturnActivity.class);
-//                    context.startActivity(intent);
+                    Intent intent = new Intent(v.getContext(), ReturnActivity.class);
+                    context.startActivity(intent);
             }
         });
         accountButton.setOnClickListener(new View.OnClickListener() {

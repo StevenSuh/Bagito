@@ -15,8 +15,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.zxing.Result;
@@ -36,25 +36,28 @@ import static android.Manifest.permission.CAMERA;
 // "QrCodeScannerActivity" with "RentActivity"
 
 // implementation also acts as Barcode scanner
-public class RentActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler, LocationListener {
+public class ReturnActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler, LocationListener {
 
     private static final int REQUEST = 1;
     private ZXingScannerView mScannerView;          // view to scan the QR code
+    private TextView mScannerInstructions;
 
     private LocationManager locationManager;
     private String location = null;
+    private String bag_qrcode_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_main); //default setContentView
-        Log.e("onCreate", "onCreate");
 
         mScannerView = new ZXingScannerView(this);
         setContentView(R.layout.scanner);
 
         ViewGroup contentFrame = findViewById(R.id.content_frame);
         contentFrame.addView(mScannerView);
+
+        mScannerInstructions = findViewById(R.id.scanner_instructions);
+        mScannerInstructions.setText(getString(R.string.return_bag_instructions));
 
         // Have to get user permissions at runtime --> check API version
         int currentapiVersion = android.os.Build.VERSION.SDK_INT;
@@ -63,7 +66,7 @@ public class RentActivity extends AppCompatActivity implements ZXingScannerView.
                 requestPermission();
             }
         }
-    }//<code class="java plain">
+    }
 
     // checks user permissions
     private boolean checkPermission() {
@@ -98,7 +101,7 @@ public class RentActivity extends AppCompatActivity implements ZXingScannerView.
 
     //
     private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
-        new android.support.v7.app.AlertDialog.Builder(RentActivity.this)
+        new android.support.v7.app.AlertDialog.Builder(ReturnActivity.this)
                 .setMessage(message)
                 .setPositiveButton("OK", okListener)
                 .setNegativeButton("Cancel", null)
@@ -153,7 +156,7 @@ public class RentActivity extends AppCompatActivity implements ZXingScannerView.
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                mScannerView.resumeCameraPreview(RentActivity.this);
+                mScannerView.resumeCameraPreview(ReturnActivity.this);
             }
         });
 
@@ -161,7 +164,11 @@ public class RentActivity extends AppCompatActivity implements ZXingScannerView.
         builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                rentBag(result);
+                if (TextUtils.isEmpty(bag_qrcode_id)) {
+                    confirmBag(result);
+                } else {
+                    returnBagAtBin(result);
+                }
             }
         });
         AlertDialog alert = builder.create();
@@ -192,46 +199,85 @@ public class RentActivity extends AppCompatActivity implements ZXingScannerView.
     @Override
     public void onProviderEnabled(String provider) {}
 
-    private void rentBag(String bagId) {
-        DataHolder.User user = DataHolder.getInstance().getUser();
-
+    private void confirmBag(final String bagId) {
         RequestParams rp = new RequestParams();
-        rp.add("user_id", Integer.toString(user.id));
         rp.add("bag_qrcode_id", bagId);
-        rp.add("location", location);
 
-        HttpUtils.post("/api/rent", rp, new JsonHttpResponseHandler() {
+        HttpUtils.post("/api/return/confirm", rp, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                successRent();
+                bag_qrcode_id = bagId;
+                startScanningBin();
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                failureRent(null);
+                failureServer(null);
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 if (errorResponse == null) {
-                    failureRent(null);
+                    failureServer(null);
                     return;
                 }
 
                 try {
                     String message = errorResponse.getString(HttpUtils.ERROR_MSG);
-                    failureRent(message);
+                    failureServer(message);
                 } catch (JSONException e) {
-                    failureRent(null);
+                    failureServer(null);
                 }
             }
         });
     }
 
-    private void successRent() {
+    private void returnBagAtBin(String binId) {
+        DataHolder.User user = DataHolder.getInstance().getUser();
+
+        RequestParams rp = new RequestParams();
+        rp.add("user_id", Integer.toString(user.id));
+        rp.add("bag_qrcode_id", bag_qrcode_id);
+        rp.add("bin_qrcode_id", binId);
+        rp.add("location", location);
+
+        HttpUtils.post("/api/return", rp, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                successReturn();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                failureServer(null);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                if (errorResponse == null) {
+                    failureServer(null);
+                    return;
+                }
+
+                try {
+                    String message = errorResponse.getString(HttpUtils.ERROR_MSG);
+                    failureServer(message);
+                } catch (JSONException e) {
+                    failureServer(null);
+                }
+            }
+        });
+    }
+
+    private void startScanningBin() {
+        mScannerInstructions.setText(getString(R.string.return_bin_instructions));
+        mScannerView.resumeCameraPreview(ReturnActivity.this);
+    }
+
+    private void successReturn() {
         // Show the result of the scan and two buttons, OK and Visit
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Bag successfully rented!");
+        builder.setTitle("Bag successfully returned!");
 
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
@@ -243,11 +289,11 @@ public class RentActivity extends AppCompatActivity implements ZXingScannerView.
         alert.show();
     }
 
-    private void failureRent(String error) {
+    private void failureServer(String error) {
         if (TextUtils.isEmpty(error)) {
             error = "Server error";
         }
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
-        mScannerView.resumeCameraPreview(RentActivity.this);
+        mScannerView.resumeCameraPreview(ReturnActivity.this);
     }
 }

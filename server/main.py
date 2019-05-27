@@ -250,8 +250,22 @@ def rent_status(user_id):
   return jsonify(values=values)
 
 
+@app.route('/api/return/confirm', methods=['POST'])
+def return_confirm():
+  bag_qrcode_id = request.form.get('bag_qrcode_id', None)
+
+  if any(v is None for v in [bag_qrcode_id]):
+    return jsonify(msg='Invalid parameters'), 400
+
+  current_bag = Bag.query.filter_by(qrcode_id=bag_qrcode_id).first()
+  if current_bag is None:
+    return jsonify(msg='Invalid bag'), 404
+
+  return jsonify()
+
+
 # Return a bag
-@app.route('/api/return',methods = ['POST'])
+@app.route('/api/return', methods=['POST'])
 def return_bag():
   user_id = request.form.get('user_id', None)
   bag_qrcode_id = request.form.get('bag_qrcode_id', None)
@@ -260,6 +274,13 @@ def return_bag():
 
   if any(v is None for v in [user_id, bag_qrcode_id, bin_qrcode_id]):
     return jsonify(msg='Invalid parameters'), 400
+
+  user = User.query.filter_by(id=user_id).first()
+  if user is None:
+    return jsonify(msg='Account does not exist'), 404
+
+  if not user.has_paid:
+    return jsonify(msg='Account does not have a valid subscription'), 400
 
   current_bag = Bag.query.filter_by(qrcode_id=bag_qrcode_id).first()
   if current_bag is None:

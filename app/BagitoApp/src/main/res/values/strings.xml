@@ -3,6 +3,9 @@
     <string name="stripe_key">Stripe_public_api_key</string>
     <string name="subscription_details">Updating your card will begin your Bagito subscription at $4.99/month.</string>
     <string name="subscription_cancel_details">Cancelling your Bagito subscription will also remove your card.</string>
+    <string name="return_bag_instructions">Scan the Bag’s QR code to return the bag</string>
+    <string name="return_bin_instructions">Scan the Bin’s QR code to return the bag</string>
+
     <string name="title_activity_login">Sign in</string>
     <string name="bagito_logo">Bagito Logo</string>
     <string name="back">back</string>
