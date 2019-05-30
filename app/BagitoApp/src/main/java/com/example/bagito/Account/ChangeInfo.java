@@ -236,7 +236,7 @@ public class ChangeInfo extends AppCompatActivity {
         }
 
         if (!isCardNumberEmpty && !isMonthYearEmpty && !isCVVEmpty) {
-            if (!Utils.canParseInt(monthYear.substring(0, 2)) || !Utils.canParseInt(monthYear.substring(3, 5))) {
+            if (Utils.canParseInt(monthYear.substring(0, 2)) && Utils.canParseInt(monthYear.substring(3, 5))) {
                 card = new Card(
                         cardNumber,
                         Integer.parseInt(monthYear.substring(0, 2)),
@@ -263,7 +263,7 @@ public class ChangeInfo extends AppCompatActivity {
                 }
             };
 
-            if (!isCardNumberEmpty && !isMonthYearEmpty && !isCVVEmpty) {
+            if (card != null) {
                 confirmCardSave(execute);
             } else {
                 execute.run();
