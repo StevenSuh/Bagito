@@ -46,7 +46,7 @@ def send_rental_reminder_email(recipients):
     build_service()
 
   data = {
-    'Messages': [
+    'Messages': [{
       'From': {
         'Email': 'stevenesuh@gmail.com',
         'Name': 'Bagito',
@@ -54,7 +54,7 @@ def send_rental_reminder_email(recipients):
       'To': recipients,
       'Subject': 'Bagito - Bag Rental Reminder',
       'TextPart': "To {{var:NAME}},\n\nThis is a reminder that you have rented a bag {{var:DAYS}} days ago. After 15th day, you will be charged the bag'si full price, allowing you to keep the bag permanently.\n\nTo return the bag, visit our partner vendor locations.\n\nBest,\nBagito",
-    ],
+    }],
   }
 
   result = mailjet.send.create(data=data)
