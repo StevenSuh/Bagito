@@ -14,7 +14,7 @@
     <application
         android:allowBackup="true"
         android:label="Bagito"
-        android:icon="@drawable/app_logo"
+        android:icon="@drawable/app_logo_not_round"
         android:roundIcon="@drawable/app_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
