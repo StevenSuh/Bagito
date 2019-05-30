@@ -275,6 +275,8 @@ def return_bag():
   if any(v is None for v in [user_id, bag_qrcode_id, bin_qrcode_id]):
     return jsonify(msg='Invalid parameters'), 400
 
+  user_id = int(user_id)
+
   user = User.query.filter_by(id=user_id).first()
   if user is None:
     return jsonify(msg='Account does not exist'), 404
@@ -308,9 +310,10 @@ def return_bag():
       user_id=user_id
   )
 
-  rental.returned_id = new_returned.id
-
   db.session.add(new_returned)
+  db.session.commit()
+
+  rental.returned_id = new_returned.id
   db.session.commit()
 
   return jsonify()
@@ -348,9 +351,10 @@ def rent():
       user_id=user_id,
   )
 
-  current_bag.rental_id = new_rental.id
-
   db.session.add(new_rental)
+  db.session.commit()
+
+  current_bag.rental_id = new_rental.id
   db.session.commit()
 
   return jsonify()

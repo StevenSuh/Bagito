@@ -56,6 +56,8 @@ public class ChangeApi {
                 }
 
                 user.hasPayment = true;
+                DataHolder.getInstance().setUser(user, context.getSharedPreferences(Enums.SHARED_PREFS.toString(), Context.MODE_PRIVATE));
+
                 return paymentMethod.id;
             }
         });
@@ -135,6 +137,10 @@ public class ChangeApi {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 successChange(context);
+
+                DataHolder.User user = DataHolder.getInstance().getUser();
+                user.hasPayment = false;
+                DataHolder.getInstance().setUser(user, context.getSharedPreferences(Enums.SHARED_PREFS.toString(), Context.MODE_PRIVATE));
             }
 
             @Override
