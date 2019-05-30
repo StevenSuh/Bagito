@@ -4,6 +4,7 @@ GSHEETS_HOURS = "Hours"
 GSHEETS_NAME = "Name"
 
 DEFAULT_PLAN_PRICE = 499 # in cents, equivalent to $4.99
+LATE_CHARGE_AMOUNT = 700 # TODO: update with proper pricing
 
 STATE_LIST = [
     "AL",

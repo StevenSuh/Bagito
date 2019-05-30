@@ -97,7 +97,7 @@ def forgot():
 
   db.session.commit()
 
-  status = services.mailjet.send_email(user.email, user.name, user.code)
+  status = services.mailjet.send_reset_pw_email(user.email, user.name, user.code)
   if status != 200:
     return jsonify(msg='Email failed to send'), 500
 
@@ -354,6 +354,54 @@ def rent():
   db.session.commit()
 
   return jsonify()
+
+
+@app.route('/task/rental', methods=['GET'])
+def task_rental():
+  today = datetime.now().date()
+  rentals = Rental.query.filter_by(returned_id=None).all()
+
+  items = []
+  for rental in rentals:
+    user = User.query.filter_by(id=rental.user_id).first()
+    if user is None:
+      continue;
+
+    diff_days = (today - rental.rental_date.date()).days
+    email_item = {
+      "Email": user.email,
+      "Name": user.name,
+      "Variables": {
+        "NAME": user.name,
+        "DAYS": 5,
+      },
+    }
+
+    if diff_days == 5:
+      email_item["Variables"]["DAYS"] = 5
+      items.append(email_item)
+    elif diff_days == 10:
+      email_item["Variables"]["DAYS"] = 10
+      items.append(email_item)
+    elif diff_days == 15:
+      bag = Bag.query.filter_by(id=rental.bag_id).first()
+      if bag is not None:
+        db.session.delete(bag)
+      rental.returned_id = "Late Charge"
+      db.session.commit()
+
+      response = services.stripe.chargeCustomer(
+        defs.LATE_CHARGE_AMOUNT,
+        "Late Charge for " + user.name,
+        user.stripe_customer_token,
+        user.stripe_payment_token)
+
+  status = services.mailjet.send_rental_reminder_email(items)
+  if status != 200:
+    return jsonify(msg='Email failed to send'), 500
+
+  return jsonify()
+
 
 if __name__ == '__main__':
   app.run(debug=True, use_reloader=True)

@@ -65,3 +65,12 @@ def deletePaymentMethod(payment_id, customer_id):
 def cancelSubscription(sub_id):
   return stripe.Subscription.delete(sub_id)
 
+def chargeCustomer(amount, description, customer_id, payment_id):
+  return stripe.Charge.create(
+    amount=amount,
+    currency='usd',
+    description=description,
+    customer=customer_id,
+    source=payment_id,
+  )
+

@@ -13,7 +13,7 @@ def build_service():
 
     service = Client(auth=(api_key, api_secret), version='v3.1')
 
-def send_email(email, name, code):
+def send_reset_pw_email(email, name, code):
   if service is None:
     build_service()
 
@@ -39,7 +39,25 @@ def send_email(email, name, code):
   }
 
   result = service.send.create(data=data)
-  print(result.status_code)
-  print(result.json())
-
   return result.status_code
+
+def send_rental_reminder_email(recipients):
+  if service is None:
+    build_service()
+
+  data = {
+    'Messages': [
+      'From': {
+        'Email': 'stevenesuh@gmail.com',
+        'Name': 'Bagito',
+      },
+      'To': recipients,
+      'Subject': 'Bagito - Bag Rental Reminder',
+      'TextPart': "To {{var:NAME}},\n\nThis is a reminder that you have rented a bag {{var:DAYS}} days ago. After 15th day, you will be charged the bag'si full price, allowing you to keep the bag permanently.\n\nTo return the bag, visit our partner vendor locations.\n\nBest,\nBagito",
+    ],
+  }
+
+  result = mailjet.send.create(data=data)
+  return result.status_code
+
+

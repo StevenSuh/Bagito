@@ -1,0 +1,4 @@
+cron:
+  - description: "daily rental checkup"
+    url: /task/rental
+    schedule: every 24 hours
